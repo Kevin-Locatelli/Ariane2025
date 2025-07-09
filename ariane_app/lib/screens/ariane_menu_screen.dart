@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:ariane_app/widgets/ariane_footer.dart';
 import 'package:ariane_app/screens/labyrinth_game_page.dart'; // Import the labyrinth game page
+import 'package:ariane_app/screens/calcul_game_page.dart'; // Import the calcul game page
 import 'package:ariane_app/constants.dart';
 
 class ArianeMenuScreen extends StatelessWidget {
@@ -156,7 +157,10 @@ class ArianeMenuScreen extends StatelessWidget {
                     description: 'Résout les calculs de Michel',
                     color: Colors.purple[200]!,
                     onTap: () {
-                      // Handle Calcul tapped
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => CalculPage()),
+                      );
                     },
                   ),
 
