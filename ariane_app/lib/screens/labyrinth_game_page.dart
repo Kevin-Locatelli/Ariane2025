@@ -20,8 +20,8 @@ class _LabyrinthePageState extends State<LabyrinthePage> {
 
   String _selectedMode = 'Mur'; // Default mode is now 'Mur'
 
-  final int _gridHeight = 25; // 25 rows
-  final int _gridWidth = 12; // 12 columns
+  final int _gridHeight = 20; // 20 rows
+  final int _gridWidth = 20; // 20 columns
   late List<List<CellType>> _grid;
   Offset? _startPoint;
   Offset? _endPoint;
@@ -72,10 +72,13 @@ class _LabyrinthePageState extends State<LabyrinthePage> {
       setState(() {
         _isDragging = true;
         _lastDraggedCell = Offset(col.toDouble(), row.toDouble());
-        // Initial wall placement is now handled by _handleCellTap on onTapUp
+        if (_grid[row][col] == CellType.empty) {
+          _grid[row][col] = CellType.wall;
+        } else if (_grid[row][col] == CellType.wall) {
+          _grid[row][col] = CellType.empty;
+        }
       });
     } else {
-      // For start/end points, handle as a single tap
       _handleCellTap(row, col);
     }
   }
@@ -135,7 +138,7 @@ class _LabyrinthePageState extends State<LabyrinthePage> {
         _grid[row][col] = CellType.end;
         _endPoint = tappedCell;
         _isEndPointSelected = true;
-      } else if (_selectedMode == 'Mur') { // New: Handle wall toggling
+      } else if (_selectedMode == 'Mur') {
         if (_grid[row][col] == CellType.empty) {
           _grid[row][col] = CellType.wall;
         } else if (_grid[row][col] == CellType.wall) {
@@ -297,7 +300,7 @@ class _LabyrinthePageState extends State<LabyrinthePage> {
           final double gridDisplayHeight = cellSize * _gridHeight;
 
           return Align(
-            alignment: Alignment.topLeft,
+            alignment: Alignment.center,
             child: SizedBox( // Use SizedBox to constrain the GridView
               width: gridDisplayWidth,
               height: gridDisplayHeight,
