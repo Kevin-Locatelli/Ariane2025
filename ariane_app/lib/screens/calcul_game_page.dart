@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:ariane_app/constants.dart';
 import 'dart:math';
+import 'package:tflite_flutter/tflite_flutter.dart';
+import 'dart:ui' as ui;
+import 'package:flutter/services.dart';
 
 class CalculPage extends StatefulWidget {
   @override
@@ -14,11 +17,43 @@ class _CalculPageState extends State<CalculPage> {
   String _userAnswer = "";
   bool _isAnswerCorrect = false;
 
+  Interpreter? _interpreter;
+  List<String>? _labels;
+
   @override
   void initState() {
     super.initState();
     _generateQuestion();
+    _loadModel();
+    _loadLabels();
   }
+
+  @override
+  void dispose() {
+    _interpreter?.close();
+    super.dispose();
+  }
+
+  Future<void> _loadModel() async {
+    try {
+      _interpreter = await Interpreter.fromAsset('assets/mnist.tflite');
+      print('Model loaded successfully');
+    } catch (e) {
+      print('Failed to load model: $e');
+    }
+  }
+
+  Future<void> _loadLabels() async {
+    try {
+      final labelTxt = await rootBundle.loadString('assets/labels.txt');
+      _labels = labelTxt.split('\n').map((e) => e.trim()).where((e) => e.isNotEmpty).toList();
+      print('Labels loaded successfully: $_labels');
+    } catch (e) {
+      print('Failed to load labels: $e');
+    }
+  }
+
+
 
   void _generateQuestion() {
     final Random random = Random();
@@ -257,16 +292,30 @@ class _CalculPageState extends State<CalculPage> {
     );
   }
   
-  void _showValidationDialog() {
-    // This is a simulated digit recognition.
-    // In a real application, you would send the _points data to a digit recognition model.
-    // For demonstration, we'll assume the user always draws the correct answer.
-    bool isCorrect = true; // Simulate correct recognition for now
+  void _showValidationDialog() async {
+    if (_interpreter == null) {
+      print('Model not loaded.');
+      return;
+    }
 
+    if (_points.isEmpty) {
+      _showResultDialog(false, 'Please draw a digit.');
+      return;
+    }
+
+    // Convert drawing to image
+    final recognizedDigit = await _recognizeDigit();
+
+    bool isCorrect = recognizedDigit == _correctAnswer;
+
+    _showResultDialog(isCorrect, recognizedDigit.toString());
+  }
+
+  void _showResultDialog(bool isCorrect, String recognizedDigit) {
     String title = isCorrect ? 'Correct !' : 'Incorrect';
     String content = isCorrect
         ? 'Bravo ! Le résultat était bien $_correctAnswer.'
-        : 'Dommage ! Le résultat était $_correctAnswer. Réessaie !';
+        : 'Dommage ! Vous avez dessiné $recognizedDigit. Le résultat était $_correctAnswer. Réessaie !';
 
     showDialog(
       context: context,
@@ -286,6 +335,109 @@ class _CalculPageState extends State<CalculPage> {
         );
       },
     );
+  }
+
+  Future<int> _recognizeDigit() async {
+    // Create a 28x28 grayscale image buffer, initialized to black (0.0)
+    final List<List<double>> imageBuffer = List.generate(
+      28,
+      (_) => List.generate(28, (_) => 0.0),
+    );
+
+    // Find bounding box of the drawing
+    double minX = double.infinity, minY = double.infinity;
+    double maxX = double.negativeInfinity, maxY = double.negativeInfinity;
+
+    for (final point in _points) {
+      if (point != null) {
+        minX = min(minX, point.dx);
+        minY = min(minY, point.dy);
+        maxX = max(maxX, point.dx);
+        maxY = max(maxY, point.dy);
+      }
+    }
+
+    // If no points, return -1 (or handle as an error)
+    if (minX == double.infinity) {
+      return -1;
+    }
+
+    final double drawingWidth = maxX - minX;
+    final double drawingHeight = maxY - minY;
+
+    // Calculate scaling factor to fit into 20x20 area (with 4-pixel border)
+    final double scale = 20.0 / max(drawingWidth, drawingHeight);
+
+    // Calculate translation to center the scaled digit on a 28x28 canvas
+    final double offsetX = (28.0 - drawingWidth * scale) / 2.0;
+    final double offsetY = (28.0 - drawingHeight * scale) / 2.0;
+
+    // "Draw" the points onto the image buffer
+    for (int i = 0; i < _points.length - 1; i++) {
+      if (_points[i] != null && _points[i + 1] != null) {
+        final Offset p1 = _points[i]!;
+        final Offset p2 = _points[i + 1]!;
+
+        // Bresenham's line algorithm to draw thick lines
+        int x0 = ((p1.dx - minX) * scale + offsetX).round();
+        int y0 = ((p1.dy - minY) * scale + offsetY).round();
+        int x1 = ((p2.dx - minX) * scale + offsetX).round();
+        int y1 = ((p2.dy - minY) * scale + offsetY).round();
+
+        int dx = (x1 - x0).abs();
+        int dy = (y1 - y0).abs();
+        int sx = (x0 < x1) ? 1 : -1;
+        int sy = (y0 < y1) ? 1 : -1;
+        int err = dx - dy;
+
+        while (true) {
+          // Draw a circle around the current point to simulate stroke width
+          for (int r = -kStrokeWidth.round(); r <= kStrokeWidth.round(); r++) {
+            for (int c = -kStrokeWidth.round(); c <= kStrokeWidth.round(); c++) {
+              int drawX = x0 + c;
+              int drawY = y0 + r;
+              if (drawX >= 0 && drawX < 28 && drawY >= 0 && drawY < 28) {
+                imageBuffer[drawY][drawX] = 1.0; // White digit
+              }
+            }
+          }
+
+          if (x0 == x1 && y0 == y1) break;
+          int e2 = 2 * err;
+          if (e2 > -dy) {
+            err -= dy;
+            x0 += sx;
+          }
+          if (e2 < dx) {
+            err += dx;
+            y0 += sy;
+          }
+        }
+      }
+    }
+
+    // Prepare input for the model
+    final input = List.filled(1 * 28 * 28 * 1, 0.0).reshape([1, 28, 28, 1]);
+    for (int y = 0; y < 28; y++) {
+      for (int x = 0; x < 28; x++) {
+        input[0][y][x][0] = imageBuffer[y][x];
+      }
+    }
+
+    // Run inference
+    final output = List.filled(1 * 10, 0.0).reshape([1, 10]);
+    _interpreter!.run(input, output);
+
+    // Get the predicted digit
+    double maxConfidence = 0.0;
+    int predictedDigit = -1;
+    for (int i = 0; i < output[0].length; i++) {
+      if (output[0][i] > maxConfidence) {
+        maxConfidence = output[0][i];
+        predictedDigit = i;
+      }
+    }
+    return predictedDigit;
   }
 }
 
