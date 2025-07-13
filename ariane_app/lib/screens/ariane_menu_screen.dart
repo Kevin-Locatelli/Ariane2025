@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:ariane_app/widgets/ariane_footer.dart';
 import 'package:ariane_app/screens/labyrinth_game_page.dart'; // Import the labyrinth game page
 import 'package:ariane_app/screens/calcul_game_page.dart'; // Import the calcul game page
+import 'package:ariane_app/screens/scratch_game_page.dart'; // Import the scratch game page
 import 'package:ariane_app/constants.dart';
 
 class ArianeMenuScreen extends StatelessWidget {
@@ -172,7 +173,10 @@ class ArianeMenuScreen extends StatelessWidget {
                     description: 'Aide Michel à trouver son chemin',
                     color: Colors.pink[200]!,
                     onTap: () {
-                      // Handle Scratch tapped
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => ScratchPage()),
+                      );
                     },
                   ),
                 ],
