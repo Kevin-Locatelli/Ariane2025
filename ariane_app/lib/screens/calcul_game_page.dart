@@ -103,9 +103,8 @@ class CalculPageState extends State<CalculPage> {
               ),
               textAlign: TextAlign.center,
             ),
-            
             SizedBox(height: kSizedBoxHeightMedium),
-            
+
             // Question bubble
             Container(
               padding: EdgeInsets.symmetric(horizontal: kPaddingExtraLarge, vertical: kPaddingMedium),
@@ -166,7 +165,7 @@ class CalculPageState extends State<CalculPage> {
                     child: CustomPaint(
                       painter: DrawingPainter(_points),
                       size: Size.infinite,
-                      child: Container(
+                      child: SizedBox(
                         width: double.infinity,
                         height: double.infinity,
                         child: Center(

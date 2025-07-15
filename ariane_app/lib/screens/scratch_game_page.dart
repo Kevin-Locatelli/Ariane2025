@@ -4,12 +4,14 @@ import 'package:ariane_app/screens/ariane_result_screen.dart';
 import 'package:ariane_app/utils/score_manager.dart';
 
 class ScratchPage extends StatefulWidget {
+  const ScratchPage({super.key});
+
   @override
-  _ScratchPageState createState() => _ScratchPageState();
+  ScratchPageState createState() => ScratchPageState();
 }
 
-class _ScratchPageState extends State<ScratchPage> with TickerProviderStateMixin {
-  List<CodeBlock> _codeBlocks = [];
+class ScratchPageState extends State<ScratchPage> with TickerProviderStateMixin {
+  final List<CodeBlock> _codeBlocks = [];
   double _characterX = 50;
   double _characterY = 50;
   double _characterRotation = 0;
@@ -162,9 +164,9 @@ class _ScratchPageState extends State<ScratchPage> with TickerProviderStateMixin
                                     ],
                                   );
                                 },
-                                onAccept: (data) {
+                                onAcceptWithDetails: (details) {
                                   setState(() {
-                                    _codeBlocks.add(CodeBlock(data, _getBlockColor(data)));
+                                    _codeBlocks.add(CodeBlock(details.data, _getBlockColor(details.data)));
                                   });
                                 },
                               ),
@@ -210,7 +212,7 @@ class _ScratchPageState extends State<ScratchPage> with TickerProviderStateMixin
                                     shape: BoxShape.circle,
                                     boxShadow: [
                                       BoxShadow(
-                                        color: Colors.black.withOpacity(0.2),
+                                        color: Colors.black.withAlpha((0.2 * 255).round()),
                                         blurRadius: 4,
                                         offset: Offset(0, 2),
                                       ),

@@ -3,11 +3,13 @@ import 'package:ariane_app/constants.dart';
 import 'package:ariane_app/widgets/red_dot_character.dart';
 
 class ParametrePage extends StatefulWidget {
+  const ParametrePage({super.key});
+
   @override
-  _ParametrePageState createState() => _ParametrePageState();
+    ParametrePageState createState() => ParametrePageState();
 }
 
-class _ParametrePageState extends State<ParametrePage> {
+class ParametrePageState extends State<ParametrePage> {
   double _musiqueVolume = 0.9;
   double _effetsSonoresVolume = 0.4;
   String _selectedLanguage = 'Français';
@@ -27,7 +29,7 @@ class _ParametrePageState extends State<ParametrePage> {
       appBar: AppBar(
         backgroundColor: kCardColor,
         elevation: kElevation,
-        shadowColor: Colors.black.withOpacity(0.1),
+        shadowColor: Colors.black.withAlpha((0.1 * 255).round()),
         leading: IconButton(
           icon: Icon(Icons.arrow_back, color: Colors.black, size: kIconSize),
           onPressed: () => Navigator.of(context).pop(),
@@ -113,7 +115,7 @@ class _ParametrePageState extends State<ParametrePage> {
         borderRadius: BorderRadius.circular(kBorderRadius),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.08),
+            color: Colors.black.withAlpha((0.08 * 255).round()),
             spreadRadius: kSpreadRadius,
             blurRadius: kBlurRadius,
             offset: Offset(kOffsetX, kOffsetY),
@@ -179,7 +181,7 @@ class _ParametrePageState extends State<ParametrePage> {
               inactiveTrackColor: kBorderColor,
               thumbColor: kCardColor,
               thumbShape: RoundSliderThumbShape(enabledThumbRadius: kThumbRadius),
-              overlayColor: kPrimaryColor.withOpacity(0.2),
+              overlayColor: kPrimaryColor.withAlpha((0.2 * 255).round()),
               overlayShape: RoundSliderOverlayShape(overlayRadius: kOverlayRadius),
               trackHeight: kTrackHeight,
             ),

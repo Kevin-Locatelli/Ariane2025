@@ -8,11 +8,13 @@ import 'package:ariane_app/utils/score_manager.dart';
 enum CellType { empty, wall, start, end, visited, path }
 
 class LabyrinthePage extends StatefulWidget {
+  const LabyrinthePage({super.key});
+
   @override
-  _LabyrinthePageState createState() => _LabyrinthePageState();
+  LabyrinthePageState createState() => LabyrinthePageState();
 }
 
-class _LabyrinthePageState extends State<LabyrinthePage> {
+class LabyrinthePageState extends State<LabyrinthePage> {
   bool _isStartPointSelected = false;
   bool _isEndPointSelected = false;
   bool _isSolving = false; // New: Flag to indicate if algorithm is running
@@ -249,6 +251,7 @@ class _LabyrinthePageState extends State<LabyrinthePage> {
         score: _score,
         message: 'Aucun chemin trouvé.',
       );
+      if (!mounted) return;
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
