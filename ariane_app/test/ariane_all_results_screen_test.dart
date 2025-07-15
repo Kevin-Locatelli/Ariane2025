@@ -1,14 +1,18 @@
+import 'package:ariane_app/providers/language_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:ariane_app/screens/ariane_all_results_screen.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:provider/provider.dart';
 
 void main() {
   group('ArianeAllResultsScreen', () {
     testWidgets('renders correctly and finds title', (WidgetTester tester) async {
       await tester.pumpWidget(
-        const MaterialApp(
-          home: ArianeAllResultsScreen(),
+        ChangeNotifierProvider(
+          create: (_) => LanguageProvider(),
+          child: const MaterialApp(
+            home: ArianeAllResultsScreen(),
+          ),
         ),
       );
 
@@ -18,8 +22,11 @@ void main() {
 
     testWidgets('finds the clear results button', (WidgetTester tester) async {
       await tester.pumpWidget(
-        const MaterialApp(
-          home: ArianeAllResultsScreen(),
+        ChangeNotifierProvider(
+          create: (_) => LanguageProvider(),
+          child: const MaterialApp(
+            home: ArianeAllResultsScreen(),
+          ),
         ),
       );
 

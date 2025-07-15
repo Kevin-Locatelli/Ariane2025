@@ -1,19 +1,26 @@
+import 'package:ariane_app/providers/language_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:ariane_app/screens/ariane_menu_screen.dart';
 import 'package:ariane_app/screens/labyrinth_game_page.dart';
 import 'package:ariane_app/screens/calcul_game_page.dart';
 import 'package:ariane_app/screens/scratch_game_page.dart';
+import 'package:provider/provider.dart';
 
 void main() {
   group('ArianeMenuScreen', () {
     testWidgets('Labyrinth card navigates to LabyrinthGamePage', (tester) async {
-      await tester.pumpWidget(MaterialApp(
-        home: const ArianeMenuScreen(),
-        routes: {
-          '/labyrinth': (context) => LabyrinthePage(),
-        },
-      ));
+      await tester.pumpWidget(
+        ChangeNotifierProvider(
+          create: (_) => LanguageProvider(),
+          child: MaterialApp(
+            home: const ArianeMenuScreen(),
+            routes: {
+              '/labyrinth': (context) => LabyrinthePage(),
+            },
+          ),
+        ),
+      );
 
       // Find the Labyrinth card and tap it
       await tester.tap(find.text('Labyrinthe'));
@@ -24,12 +31,17 @@ void main() {
     });
 
     testWidgets('Calcul card navigates to CalculGamePage', (tester) async {
-      await tester.pumpWidget(MaterialApp(
-        home: const ArianeMenuScreen(),
-        routes: {
-          '/calcul': (context) => CalculPage(),
-        },
-      ));
+      await tester.pumpWidget(
+        ChangeNotifierProvider(
+          create: (_) => LanguageProvider(),
+          child: MaterialApp(
+            home: const ArianeMenuScreen(),
+            routes: {
+              '/calcul': (context) => CalculPage(),
+            },
+          ),
+        ),
+      );
 
       // Find the Calcul card and tap it
       await tester.tap(find.text('Calcul'));
@@ -40,12 +52,17 @@ void main() {
     });
 
     testWidgets('Scratch card navigates to ScratchGamePage', (tester) async {
-      await tester.pumpWidget(MaterialApp(
-        home: const ArianeMenuScreen(),
-        routes: {
-          '/scratch': (context) => ScratchPage(),
-        },
-      ));
+      await tester.pumpWidget(
+        ChangeNotifierProvider(
+          create: (_) => LanguageProvider(),
+          child: MaterialApp(
+            home: const ArianeMenuScreen(),
+            routes: {
+              '/scratch': (context) => ScratchPage(),
+            },
+          ),
+        ),
+      );
 
       // Find the Scratch card and tap it
       await tester.tap(find.text('Scratch'));
