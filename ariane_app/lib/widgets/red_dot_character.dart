@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class RedDotCharacter extends StatelessWidget {
   final double size;
 
-  const RedDotCharacter({Key? key, this.size = 40}) : super(key: key);
+  const RedDotCharacter({super.key, this.size = 40});
 
   @override
   Widget build(BuildContext context) {
