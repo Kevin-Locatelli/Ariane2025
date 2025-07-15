@@ -1,7 +1,7 @@
 
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:tflite/tflite.dart';
+import '../lib/tflite.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
@@ -12,7 +12,7 @@ void main() {
   final List<MethodCall> log = <MethodCall>[];
 
   setUp(() async {
-    channel.setMockMethodCallHandler((MethodCall methodCall) {
+    TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger.setMockMethodCallHandler(channel, (MethodCall methodCall) {
       log.add(methodCall);
       return null;
     });

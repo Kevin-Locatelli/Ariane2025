@@ -18,7 +18,7 @@ class ParametrePageState extends State<ParametrePage> {
   @override
   Widget build(BuildContext context) {
     final languageProvider = Provider.of<LanguageProvider>(context);
-    String _selectedLanguage = languageProvider.currentLocale.languageCode == 'fr' ? 'Français' : 'English';
+    String selectedLanguage = languageProvider.currentLocale.languageCode == 'fr' ? 'Français' : 'English';
 
     return Scaffold(
       appBar: AppBar(
@@ -177,7 +177,7 @@ class ParametrePageState extends State<ParametrePage> {
               inactiveTrackColor: kBorderColor,
               thumbColor: Theme.of(context).cardColor,
               thumbShape: RoundSliderThumbShape(enabledThumbRadius: kThumbRadius),
-              overlayColor: Theme.of(context).colorScheme.primary.withOpacity(0.2),
+              overlayColor: Theme.of(context).colorScheme.primary.withAlpha(51),
               overlayShape: RoundSliderOverlayShape(overlayRadius: kOverlayRadius),
               trackHeight: kTrackHeight,
             ),

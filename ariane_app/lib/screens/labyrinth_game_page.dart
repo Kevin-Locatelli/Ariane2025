@@ -235,33 +235,36 @@ class LabyrinthePageState extends State<LabyrinthePage> {
         score: _score,
         message: 'Bravo ! Chemin trouvé en $_score pas.',
       );
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-          builder: (context) => ArianeResultScreen(
-            score: _score,
-            message: 'Bravo ! Chemin trouvé en $_score pas.',
-            gameName: 'Labyrinthe',
+      if (mounted) {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (context) => ArianeResultScreen(
+              score: _score,
+              message: 'Bravo ! Chemin trouvé en $_score pas.',
+              gameName: 'Labyrinthe',
+            ),
           ),
-        ),
-      );
+        );
+      }
     } else {
       await ScoreManager.saveScore(
         gameName: 'Labyrinthe',
         score: _score,
         message: 'Aucun chemin trouvé.',
       );
-      if (!mounted) return;
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-          builder: (context) => ArianeResultScreen(
-            score: _score,
-            message: 'Aucun chemin trouvé.',
-            gameName: 'Labyrinthe',
+      if (mounted) {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (context) => ArianeResultScreen(
+              score: _score,
+              message: 'Aucun chemin trouvé.',
+              gameName: 'Labyrinthe',
+            ),
           ),
-        ),
-      );
+        );
+      }
     }
 
     setState(() {
@@ -358,10 +361,10 @@ class LabyrinthePageState extends State<LabyrinthePage> {
                       cellIcon = Icons.check_circle;
                       break;
                     case CellType.visited:
-                      cellColor = Theme.of(context).colorScheme.primary.withOpacity(0.1); // Light blue for visited
+                      cellColor = Theme.of(context).colorScheme.primary.withAlpha(25); // Light blue for visited
                       break;
                     case CellType.path:
-                      cellColor = kSuccessColor.withOpacity(0.8); // Darker blue for path
+                      cellColor = kSuccessColor.withAlpha(204); // Darker blue for path
                       break;
                   }
 
@@ -485,7 +488,7 @@ class LabyrinthePageState extends State<LabyrinthePage> {
           boxShadow: isSelected || isPointSet
               ? [
                   BoxShadow(
-                    color: color.withOpacity(0.3),
+                    color: color.withAlpha(77),
                     spreadRadius: kSpreadRadius,
                     blurRadius: kSizedBoxHeightSmall,
                     offset: Offset(kOffsetX, kOffsetY),

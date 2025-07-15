@@ -458,16 +458,18 @@ class ScratchPageState extends State<ScratchPage> with TickerProviderStateMixin 
       message: 'Code exécuté !',
     );
 
-    Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(
-        builder: (context) => ArianeResultScreen(
-          score: _score,
-          message: 'Code exécuté !',
-          gameName: 'Scratch',
+    if (mounted) {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) => ArianeResultScreen(
+            score: _score,
+            message: 'Code exécuté !',
+            gameName: 'Scratch',
+          ),
         ),
-      ),
-    );
+      );
+    }
   }
 }
 

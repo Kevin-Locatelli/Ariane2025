@@ -65,17 +65,18 @@ class CalculPageState extends State<CalculPage> {
               score: _currentScore,
               message: 'Partie terminée. Votre score final est $_currentScore.',
             );
-            if (!mounted) return;
-            Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(
-                builder: (context) => ArianeResultScreen(
-                  score: _currentScore,
-                  message: 'Partie terminée. Votre score final est $_currentScore.',
-                  gameName: 'Calcul',
+            if (mounted) {
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => ArianeResultScreen(
+                    score: _currentScore,
+                    message: 'Partie terminée. Votre score final est $_currentScore.',
+                    gameName: 'Calcul',
+                  ),
                 ),
-              ),
-            );
+              );
+            }
           },
         ),
         centerTitle: true,
