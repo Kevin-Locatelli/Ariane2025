@@ -21,12 +21,16 @@ jobs:
 
       - name: Get Flutter dependencies
         run: flutter pub get
+        working-directory: ariane_app
 
       - name: Analyze code
         run: flutter analyze
+        working-directory: ariane_app
 
       - name: Run tests
         run: flutter test
+        working-directory: ariane_app
 
       - name: Build Windows application
         run: flutter build windows --release
+        working-directory: ariane_app
