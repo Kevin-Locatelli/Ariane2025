@@ -316,9 +316,7 @@ class _LabyrinthePageState extends State<LabyrinthePage> {
               ),
             ),
             SizedBox(height: kPaddingLarge),
-            Expanded(
-              child: _buildGameArea(),
-            ),
+            _buildGameArea(),
             _buildControlButtons(),
           ],
         ),

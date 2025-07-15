@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:ariane_app/constants.dart'; // Import the constants file
+import 'package:ariane_app/constants.dart';
+import 'package:ariane_app/widgets/red_dot_character.dart';
 
 class ParametrePage extends StatefulWidget {
   @override
@@ -34,14 +35,7 @@ class _ParametrePageState extends State<ParametrePage> {
         title: Row(
           children: [
             // Red panda mascot
-            SizedBox(
-              width: kMascotSize,
-              height: kMascotSize,
-              child: Image.asset(
-                'assets/red_panda.png', // Replace with your red panda asset
-                fit: BoxFit.contain,
-              ),
-            ),
+            RedDotCharacter(size: kMascotSize),
             SizedBox(width: kSizedBoxWidthMedium),
             Text(
               'Paramètre',

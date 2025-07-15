@@ -61,11 +61,10 @@ class ArianeResultScreen extends StatelessWidget {
               SizedBox(height: kSizedBoxHeightLarge * 2),
               ElevatedButton(
                 onPressed: () {
-                  Navigator.pushAndRemoveUntil(
+                  Navigator.popUntil(
                     context,
-                    MaterialPageRoute(builder: (context) => const ArianeMenuScreen()),
-                    (Route<dynamic> route) => false,
-                  ); // Go back to game chooser page
+                    ModalRoute.withName('/'),
+                  );
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: kPrimaryColor,
