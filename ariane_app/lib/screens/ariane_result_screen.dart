@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:ariane_app/constants.dart';
-import 'package:ariane_app/screens/ariane_menu_screen.dart';
 
 class ArianeResultScreen extends StatelessWidget {
   final int score;
@@ -8,11 +7,11 @@ class ArianeResultScreen extends StatelessWidget {
   final String gameName;
 
   const ArianeResultScreen({
-    Key? key,
+    super.key,
     required this.score,
     required this.message,
     required this.gameName,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

@@ -2,36 +2,30 @@ import 'package:flutter/material.dart';
 import 'package:ariane_app/constants.dart';
 import 'dart:math';
 import 'package:tflite_flutter/tflite_flutter.dart';
-import 'dart:ui' as ui;
-import 'package:flutter/services.dart';
 import 'package:ariane_app/screens/ariane_result_screen.dart';
 import 'package:ariane_app/utils/score_manager.dart';
 
 class CalculPage extends StatefulWidget {
+  const CalculPage({super.key});
+
   @override
-  _CalculPageState createState() => _CalculPageState();
+  CalculPageState createState() => CalculPageState();
 }
 
-class _CalculPageState extends State<CalculPage> {
-  List<Offset?> _points = <Offset?>[];
+class CalculPageState extends State<CalculPage> {
+  final List<Offset?> _points = <Offset?>[];
   String _currentQuestion = "";
   int _correctAnswer = 0;
-  String _userAnswer = "";
-  bool _isAnswerCorrect = false;
   int _currentScore = 0; // New: Score for the current game session
-  int _streak = 0; // New: Streak of correct answers
 
   Interpreter? _interpreter;
-  List<String>? _labels;
 
   @override
   void initState() {
     super.initState();
     _currentScore = 0; // Initialize score for the session
-    _streak = 0; // Initialize streak for the session
     _generateQuestion();
     _loadModel();
-    _loadLabels();
   }
 
   @override
@@ -43,50 +37,17 @@ class _CalculPageState extends State<CalculPage> {
   Future<void> _loadModel() async {
     try {
       _interpreter = await Interpreter.fromAsset('assets/mnist.tflite');
-      print('Model loaded successfully');
     } catch (e) {
-      print('Failed to load model: $e');
+      // Handle error: Failed to load model
     }
   }
-
-  Future<void> _loadLabels() async {
-    try {
-      final labelTxt = await rootBundle.loadString('assets/labels.txt');
-      _labels = labelTxt.split('\n').map((e) => e.trim()).where((e) => e.isNotEmpty).toList();
-      print('Labels loaded successfully: $_labels');
-    } catch (e) {
-      print('Failed to load labels: $e');
-    }
-  }
-
-
 
   void _generateQuestion() {
     final Random random = Random();
-    int num1, num2, result;
-    String operator;
-
-    do {
-      num1 = random.nextInt(10); // 0-9
-      num2 = random.nextInt(10); // 0-9
-      final int opType = random.nextInt(2); // 0 for +, 1 for -
-
-      if (opType == 0) {
-        operator = '+';
-        result = num1 + num2;
-      } else {
-        operator = '-';
-        result = num1 - num2;
-      }
-    } while (result < 0 || result > 9); // Ensure result is between 0 and 9
-
-    setState(() {
-      _currentQuestion = "Combien font $num1 $operator $num2 ?";
-      _correctAnswer = result;
-      _points.clear(); // Clear drawing area for new question
-      _userAnswer = "";
-      _isAnswerCorrect = false;
-    });
+    _correctAnswer = random.nextInt(10); // Result between 0 and 9
+    int num1 = random.nextInt(_correctAnswer + 1); // num1 between 0 and _correctAnswer
+    int num2 = _correctAnswer - num1;
+    _currentQuestion = '$num1 + $num2 = ?';
   }
 
   @override
@@ -105,6 +66,7 @@ class _CalculPageState extends State<CalculPage> {
               score: _currentScore,
               message: 'Partie terminée. Votre score final est $_currentScore.',
             );
+            if (!mounted) return;
             Navigator.pushReplacement(
               context,
               MaterialPageRoute(
@@ -153,7 +115,7 @@ class _CalculPageState extends State<CalculPage> {
                 border: Border.all(color: kPrimaryColor, width: 2),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.black.withOpacity(0.05),
+                    color: Colors.black.withAlpha((0.05 * 255).round()),
                     spreadRadius: kSpreadRadiusSmall,
                     blurRadius: kBlurRadiusSmall,
                     offset: Offset(kOffsetX, kOffsetY),
@@ -183,7 +145,7 @@ class _CalculPageState extends State<CalculPage> {
                   border: Border.all(color: kBorderColor, width: 2),
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.black.withOpacity(0.08),
+                      color: Colors.black.withAlpha((0.08 * 255).round()),
                       spreadRadius: kSpreadRadius,
                       blurRadius: kBlurRadius,
                       offset: Offset(kOffsetX, kOffsetY),
@@ -195,7 +157,6 @@ class _CalculPageState extends State<CalculPage> {
                   child: GestureDetector(
                     onPanUpdate: (details) {
                       setState(() {
-                        RenderBox renderBox = context.findRenderObject() as RenderBox;
                         _points.add(details.localPosition);
                       });
                     },
@@ -247,8 +208,6 @@ class _CalculPageState extends State<CalculPage> {
                   onTap: () {
                     setState(() {
                       _points.clear();
-                      _userAnswer = "";
-                      _isAnswerCorrect = false;
                     });
                   },
                   child: Container(
@@ -259,7 +218,7 @@ class _CalculPageState extends State<CalculPage> {
                       border: Border.all(color: kPrimaryColor, width: 2),
                       boxShadow: [
                         BoxShadow(
-                          color: Colors.black.withOpacity(0.08),
+                          color: Colors.black.withAlpha((0.08 * 255).round()),
                           spreadRadius: kSpreadRadiusSmall,
                           blurRadius: kBlurRadiusSmall,
                           offset: Offset(kOffsetX, kOffsetY),
@@ -290,7 +249,7 @@ class _CalculPageState extends State<CalculPage> {
                       border: Border.all(color: kPrimaryColor, width: 2),
                       boxShadow: [
                         BoxShadow(
-                          color: Colors.black.withOpacity(0.08),
+                          color: Colors.black.withAlpha((0.08 * 255).round()),
                           spreadRadius: kSpreadRadiusSmall,
                           blurRadius: kBlurRadiusSmall,
                           offset: Offset(kOffsetX, kOffsetY),
@@ -335,11 +294,9 @@ class _CalculPageState extends State<CalculPage> {
     final recognizedDigit = await _recognizeDigit();
 
     bool isCorrect = recognizedDigit == _correctAnswer;
-    int score = isCorrect ? 1 : 0;
     if (isCorrect) {
       setState(() {
         _currentScore++;
-        _streak++;
         _points.clear(); // Clear drawing area for new question
       });
       _generateQuestion(); // Generate new question immediately
@@ -351,6 +308,7 @@ class _CalculPageState extends State<CalculPage> {
         score: _currentScore,
         message: message,
       );
+      if (!mounted) return;
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(

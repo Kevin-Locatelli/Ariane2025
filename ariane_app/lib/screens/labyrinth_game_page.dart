@@ -15,7 +15,6 @@ class LabyrinthePage extends StatefulWidget {
 class _LabyrinthePageState extends State<LabyrinthePage> {
   bool _isStartPointSelected = false;
   bool _isEndPointSelected = false;
-  bool _gameStarted = false;
   bool _isSolving = false; // New: Flag to indicate if algorithm is running
   bool _isDragging = false; // New: Flag to track if dragging is active
   Offset? _lastDraggedCell; // New: To track the last cell dragged over
@@ -48,26 +47,13 @@ class _LabyrinthePageState extends State<LabyrinthePage> {
     _endPoint = null;
     _isStartPointSelected = false;
     _isEndPointSelected = false;
-    _gameStarted = false;
     _isSolving = false;
     _visitedCells.clear();
     _pathCells.clear();
     _score = 0;
   }
 
-  // Helper to get cell coordinates from local position
-  Offset? _getCellCoordinates(Offset localPosition, double gridDisplayWidth, double gridDisplayHeight) {
-    final double cellWidth = gridDisplayWidth / _gridWidth;
-    final double cellHeight = gridDisplayHeight / _gridHeight;
-
-    final int col = (localPosition.dx / cellWidth).floor();
-    final int row = (localPosition.dy / cellHeight).floor();
-
-    if (row >= 0 && row < _gridHeight && col >= 0 && col < _gridWidth) {
-      return Offset(col.toDouble(), row.toDouble());
-    }
-    return null;
-  }
+  
 
   void _handlePanStart(int row, int col) {
     if (_isSolving) return;
@@ -163,7 +149,6 @@ class _LabyrinthePageState extends State<LabyrinthePage> {
 
     setState(() {
       _isSolving = true;
-      _gameStarted = true;
       _visitedCells.clear();
       _pathCells.clear();
       // Reset visited/path cells on the grid for a new solve
@@ -278,7 +263,6 @@ class _LabyrinthePageState extends State<LabyrinthePage> {
 
     setState(() {
       _isSolving = false;
-      _gameStarted = false; // Reset game started state after solving
     });
   }
 
@@ -372,7 +356,7 @@ class _LabyrinthePageState extends State<LabyrinthePage> {
                       cellIcon = Icons.check_circle;
                       break;
                     case CellType.visited:
-                      cellColor = Colors.blue.withOpacity(0.1); // Light blue for visited
+                      cellColor = Colors.blue.withAlpha((0.1 * 255).round()); // Light blue for visited
                       break;
                     case CellType.path:
                       cellColor = const Color.fromARGB(255, 8, 173, 49); // Darker blue for path
@@ -411,7 +395,7 @@ class _LabyrinthePageState extends State<LabyrinthePage> {
         borderRadius: BorderRadius.circular(kBorderRadius),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.08),
+            color: Colors.black.withAlpha((0.08 * 255).round()),
             spreadRadius: kSpreadRadius,
             blurRadius: kBlurRadius,
             offset: Offset(kOffsetX, kOffsetY),
@@ -499,7 +483,7 @@ class _LabyrinthePageState extends State<LabyrinthePage> {
           boxShadow: isSelected || isPointSet
               ? [
                   BoxShadow(
-                    color: color.withOpacity(0.3),
+                    color: color.withAlpha((0.3 * 255).round()),
                     spreadRadius: kSpreadRadius,
                     blurRadius: kSizedBoxHeightSmall,
                     offset: Offset(kOffsetX, kOffsetY),

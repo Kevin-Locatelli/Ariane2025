@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:ariane_app/screens/ariane_result_screen.dart';
 import 'package:ariane_app/screens/ariane_menu_screen.dart';
 import 'package:ariane_app/screens/parameter_page.dart';
 import 'package:ariane_app/screens/ariane_all_results_screen.dart';

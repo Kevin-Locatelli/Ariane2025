@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:ariane_app/constants.dart';
 
 class RedDotCharacter extends StatelessWidget {
   final double size;

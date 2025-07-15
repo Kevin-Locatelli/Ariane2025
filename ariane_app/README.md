@@ -84,3 +84,15 @@ Une fois l'application lancée, vous pouvez :
 *   **Suivre les scores :** Consultez vos résultats et scores de jeu précédents sur l'écran des résultats dédié.
 *   **Personnaliser les paramètres :** Ajustez le volume audio et changez la langue de l'application dans la page des paramètres.
 *   **Apprendre et s'amuser :** Interagissez avec les éléments interactifs et profitez des aspects éducatifs des jeux.
+
+## Le manuel de déploiement
+
+[À compléter avec les instructions de déploiement spécifiques, par exemple, comment générer un APK/IPA, comment publier sur les stores, etc.]
+
+## Le manuel d’utilisation
+
+[À compléter avec des instructions détaillées sur l'utilisation de l'application, les fonctionnalités de chaque jeu, etc.]
+
+## Le manuel de mise à jour
+
+[À compléter avec les procédures de mise à jour de l'application, par exemple, comment gérer les migrations de données, les nouvelles versions, etc.]

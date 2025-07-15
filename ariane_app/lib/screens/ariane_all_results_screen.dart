@@ -3,7 +3,7 @@ import 'package:ariane_app/constants.dart';
 import 'package:ariane_app/utils/score_manager.dart';
 
 class ArianeAllResultsScreen extends StatefulWidget {
-  const ArianeAllResultsScreen({Key? key}) : super(key: key);
+  const ArianeAllResultsScreen({super.key});
 
   @override
   State<ArianeAllResultsScreen> createState() => _ArianeAllResultsScreenState();
