@@ -21,9 +21,12 @@ def check_flutter_analyze(threshold=50):
     
     # Count issues (info, warning, error)
     issue_count = 0
+    print("\n--- Flutter Analyze Issues ---")
     for line in output.splitlines():
         if re.match(r"^\s*(info|warning|error) -", line):
             issue_count += 1
+            print(line) # Log the issue
+    print("----------------------------\n")
 
     print(f"Flutter analyze reported {issue_count} issues.")
 
