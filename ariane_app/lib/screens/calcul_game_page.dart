@@ -4,6 +4,8 @@ import 'dart:math';
 import 'package:tflite_flutter/tflite_flutter.dart';
 import 'dart:ui' as ui;
 import 'package:flutter/services.dart';
+import 'package:ariane_app/screens/ariane_result_screen.dart';
+import 'package:ariane_app/utils/score_manager.dart';
 
 class CalculPage extends StatefulWidget {
   @override
@@ -16,6 +18,8 @@ class _CalculPageState extends State<CalculPage> {
   int _correctAnswer = 0;
   String _userAnswer = "";
   bool _isAnswerCorrect = false;
+  int _currentScore = 0; // New: Score for the current game session
+  int _streak = 0; // New: Streak of correct answers
 
   Interpreter? _interpreter;
   List<String>? _labels;
@@ -23,6 +27,8 @@ class _CalculPageState extends State<CalculPage> {
   @override
   void initState() {
     super.initState();
+    _currentScore = 0; // Initialize score for the session
+    _streak = 0; // Initialize streak for the session
     _generateQuestion();
     _loadModel();
     _loadLabels();
@@ -92,7 +98,24 @@ class _CalculPageState extends State<CalculPage> {
         elevation: 0,
         leading: IconButton(
           icon: Icon(Icons.arrow_back, color: Colors.black, size: kIconSize),
-          onPressed: () => Navigator.of(context).pop(),
+          onPressed: () async {
+            // Save current score before leaving
+            await ScoreManager.saveScore(
+              gameName: 'Calcul',
+              score: _currentScore,
+              message: 'Partie terminée. Votre score final est $_currentScore.',
+            );
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                builder: (context) => ArianeResultScreen(
+                  score: _currentScore,
+                  message: 'Partie terminée. Votre score final est $_currentScore.',
+                  gameName: 'Calcul',
+                ),
+              ),
+            );
+          },
         ),
         centerTitle: true,
         title: Text(
@@ -294,12 +317,17 @@ class _CalculPageState extends State<CalculPage> {
   
   void _showValidationDialog() async {
     if (_interpreter == null) {
-      print('Model not loaded.');
+      // Show a message to the user if model not loaded
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Modèle de reconnaissance non chargé.')),
+      );
       return;
     }
 
     if (_points.isEmpty) {
-      _showResultDialog(false, 'Please draw a digit.');
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Veuillez dessiner un chiffre.')),
+      );
       return;
     }
 
@@ -307,34 +335,33 @@ class _CalculPageState extends State<CalculPage> {
     final recognizedDigit = await _recognizeDigit();
 
     bool isCorrect = recognizedDigit == _correctAnswer;
-
-    _showResultDialog(isCorrect, recognizedDigit.toString());
-  }
-
-  void _showResultDialog(bool isCorrect, String recognizedDigit) {
-    String title = isCorrect ? 'Correct !' : 'Incorrect';
-    String content = isCorrect
-        ? 'Bravo ! Le résultat était bien $_correctAnswer.'
-        : 'Dommage ! Vous avez dessiné $recognizedDigit. Le résultat était $_correctAnswer. Réessaie !';
-
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text(title),
-          content: Text(content),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-                _generateQuestion(); // Generate new question after validation
-              },
-              child: Text('OK'),
-            ),
-          ],
-        );
-      },
-    );
+    int score = isCorrect ? 1 : 0;
+    if (isCorrect) {
+      setState(() {
+        _currentScore++;
+        _streak++;
+        _points.clear(); // Clear drawing area for new question
+      });
+      _generateQuestion(); // Generate new question immediately
+    } else {
+      // Incorrect answer: save score and navigate to result screen
+      String message = 'Dommage ! Vous avez dessiné $recognizedDigit. Le résultat était $_correctAnswer. Votre score final est $_currentScore.';
+      await ScoreManager.saveScore(
+        gameName: 'Calcul',
+        score: _currentScore,
+        message: message,
+      );
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) => ArianeResultScreen(
+            score: _currentScore,
+            message: message,
+            gameName: 'Calcul',
+          ),
+        ),
+      );
+    }
   }
 
   Future<int> _recognizeDigit() async {

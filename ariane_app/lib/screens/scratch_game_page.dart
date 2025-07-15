@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'dart:math';
+import 'package:ariane_app/screens/ariane_result_screen.dart';
+import 'package:ariane_app/utils/score_manager.dart';
 
 class ScratchPage extends StatefulWidget {
   @override
@@ -14,6 +16,7 @@ class _ScratchPageState extends State<ScratchPage> with TickerProviderStateMixin
   AnimationController? _animationController;
   bool _isRunning = false;
   final GlobalKey _gameAreaKey = GlobalKey();
+  int _score = 0; // Score for Scratch game
 
   @override
   void initState() {
@@ -421,15 +424,19 @@ class _ScratchPageState extends State<ScratchPage> with TickerProviderStateMixin
             // Ensure character stays within bounds
             _characterX = _characterX.clamp(0, gameAreaSize.width - 60); // 60 is character width
             _characterY = _characterY.clamp(0, gameAreaSize.height - 60); // 60 is character height
+            _score++;
             break;
           case 'Tourner droite':
             _characterRotation += 1.57; // 90 degrees
+            _score++;
             break;
           case 'Tourner gauche':
             _characterRotation -= 1.57; // 90 degrees
+            _score++;
             break;
           case 'Dire bonjour':
             // Speech bubble is shown when _isRunning is true
+            _score++;
             break;
         }
       });
@@ -440,6 +447,23 @@ class _ScratchPageState extends State<ScratchPage> with TickerProviderStateMixin
     setState(() {
       _isRunning = false;
     });
+
+    await ScoreManager.saveScore(
+      gameName: 'Scratch',
+      score: _score,
+      message: 'Code exécuté !',
+    );
+
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(
+        builder: (context) => ArianeResultScreen(
+          score: _score,
+          message: 'Code exécuté !',
+          gameName: 'Scratch',
+        ),
+      ),
+    );
   }
 }
 

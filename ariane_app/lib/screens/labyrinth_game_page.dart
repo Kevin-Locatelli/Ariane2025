@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:ariane_app/constants.dart';
 import 'dart:collection'; // For Queue
 import 'dart:math' as math; // For math.min
+import 'package:ariane_app/screens/ariane_result_screen.dart';
+import 'package:ariane_app/utils/score_manager.dart';
 
 enum CellType { empty, wall, start, end, visited, path }
 
@@ -241,12 +243,36 @@ class _LabyrinthePageState extends State<LabyrinthePage> {
           await Future.delayed(const Duration(milliseconds: 50));
         }
       }
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Chemin trouvé !')),
+      await ScoreManager.saveScore(
+        gameName: 'Labyrinthe',
+        score: _score,
+        message: 'Bravo ! Chemin trouvé en $_score pas.',
+      );
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) => ArianeResultScreen(
+            score: _score,
+            message: 'Bravo ! Chemin trouvé en $_score pas.',
+            gameName: 'Labyrinthe',
+          ),
+        ),
       );
     } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Aucun chemin trouvé.')),
+      await ScoreManager.saveScore(
+        gameName: 'Labyrinthe',
+        score: _score,
+        message: 'Aucun chemin trouvé.',
+      );
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) => ArianeResultScreen(
+            score: _score,
+            message: 'Aucun chemin trouvé.',
+            gameName: 'Labyrinthe',
+          ),
+        ),
       );
     }
 

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:ariane_app/screens/ariane_result_screen.dart';
 import 'package:ariane_app/screens/ariane_menu_screen.dart';
 import 'package:ariane_app/screens/parameter_page.dart';
+import 'package:ariane_app/screens/ariane_all_results_screen.dart';
 
 class ArianeFooter extends StatelessWidget {
   final int selectedIndex;
@@ -31,7 +32,7 @@ class ArianeFooter extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-          _buildBottomNavItem(
+          ArianeFooter._buildBottomNavItem(
             context,
             selectedIndex: selectedIndex,
             icon: Icons.emoji_events,
@@ -41,11 +42,11 @@ class ArianeFooter extends StatelessWidget {
               onItemTapped(0);
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => const ArianeResultScreen()),
+                MaterialPageRoute(builder: (context) => const ArianeAllResultsScreen()),
               );
             },
           ),
-          _buildBottomNavItem(
+          ArianeFooter._buildBottomNavItem(
             context,
             selectedIndex: selectedIndex,
             icon: Icons.sports_esports,
@@ -59,7 +60,7 @@ class ArianeFooter extends StatelessWidget {
               );
             },
           ),
-          _buildBottomNavItem(
+          ArianeFooter._buildBottomNavItem(
             context,
             selectedIndex: selectedIndex,
             icon: Icons.settings,
