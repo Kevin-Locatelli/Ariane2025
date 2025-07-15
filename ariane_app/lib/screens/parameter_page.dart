@@ -53,13 +53,15 @@ class ParametrePageState extends State<ParametrePage> {
       ),
       body: Padding(
         padding: EdgeInsets.all(kPaddingLarge),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            _buildAudioSection(),
-            SizedBox(height: kSizedBoxHeightLarge),
-            _buildSystemSection(),
-          ],
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              _buildAudioSection(),
+              SizedBox(height: kSizedBoxHeightLarge),
+              _buildSystemSection(),
+            ],
+          ),
         ),
       ),
     );
