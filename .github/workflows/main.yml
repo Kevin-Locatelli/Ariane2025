@@ -51,6 +51,9 @@ jobs:
         run: flutter build windows --release
         working-directory: ariane_app
 
+      - name: List build directory
+        run: ls -R ariane_app/build/windows
+
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
