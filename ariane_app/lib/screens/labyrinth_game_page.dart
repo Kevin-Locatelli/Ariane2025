@@ -17,6 +17,7 @@ class _LabyrinthePageState extends State<LabyrinthePage> {
   bool _isSolving = false; // New: Flag to indicate if algorithm is running
   bool _isDragging = false; // New: Flag to track if dragging is active
   Offset? _lastDraggedCell; // New: To track the last cell dragged over
+  int _score = 0; // Score for the labyrinth game
 
   String _selectedMode = 'Mur'; // Default mode is now 'Mur'
 
@@ -49,6 +50,7 @@ class _LabyrinthePageState extends State<LabyrinthePage> {
     _isSolving = false;
     _visitedCells.clear();
     _pathCells.clear();
+    _score = 0;
   }
 
   // Helper to get cell coordinates from local position
@@ -234,6 +236,7 @@ class _LabyrinthePageState extends State<LabyrinthePage> {
         if (cell != _startPoint && cell != _endPoint) {
           setState(() {
             _grid[cell.dy.toInt()][cell.dx.toInt()] = CellType.path;
+            _score++;
           });
           await Future.delayed(const Duration(milliseconds: 50));
         }
@@ -278,10 +281,19 @@ class _LabyrinthePageState extends State<LabyrinthePage> {
         padding: EdgeInsets.all(kPaddingLarge),
         child: Column(
           children: [
-            _buildGameArea(),
-            Flexible(
-              child: _buildControlButtons(),
+            Text(
+              'Score: $_score',
+              style: TextStyle(
+                fontSize: kFontSizeMedium,
+                fontWeight: FontWeight.bold,
+                color: Colors.black87,
+              ),
             ),
+            SizedBox(height: kPaddingLarge),
+            Expanded(
+              child: _buildGameArea(),
+            ),
+            _buildControlButtons(),
           ],
         ),
       ),
