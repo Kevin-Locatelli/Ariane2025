@@ -127,7 +127,7 @@ class ArianeMenuScreen extends StatelessWidget {
               width: 100,
               decoration: BoxDecoration(
                 gradient: LinearGradient(
-                  colors: [color.withOpacity(0.7), color],
+                  colors: [color.withAlpha((255 * 0.7).round()), color],
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
                 ),

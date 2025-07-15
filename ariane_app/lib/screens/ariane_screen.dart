@@ -1,7 +1,6 @@
+import 'package:ariane_app/screens/ariane_menu_screen.dart';
 import 'package:ariane_app/utils/app_strings.dart';
 import 'package:flutter/material.dart';
-import 'package:ariane_app/screens/ariane_menu_screen.dart';
-import 'package:ariane_app/constants.dart';
 
 class ArianeScreen extends StatelessWidget {
   const ArianeScreen({super.key});

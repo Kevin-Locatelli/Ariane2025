@@ -113,7 +113,7 @@ class CalculPageState extends State<CalculPage> {
                 border: Border.all(color: Theme.of(context).colorScheme.primary, width: 2),
                 boxShadow: [
                   BoxShadow(
-                    color: kShadowColor.withOpacity(0.5), // Adjusted opacity
+                    color: kShadowColor.withAlpha((255 * 0.5).round()), // Adjusted opacity
                     spreadRadius: kSpreadRadiusSmall,
                     blurRadius: kBlurRadiusSmall,
                     offset: Offset(kOffsetX, kOffsetY),

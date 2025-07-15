@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:ariane_app/screens/ariane_all_results_screen.dart';
-import 'package:ariane_app/utils/score_manager.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 void main() {
   group('ArianeAllResultsScreen', () {
