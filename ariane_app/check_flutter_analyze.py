@@ -6,10 +6,11 @@ def check_flutter_analyze(threshold=50):
     print(f"Running flutter analyze with issue threshold: {threshold}")
     try:
         result = subprocess.run(
-            ["flutter", "analyze"],
+            "flutter analyze",
             capture_output=True,
             text=True,
             check=False,
+            shell=True,
             cwd="."  # Run in the current directory (ariane_app)
         )
     except FileNotFoundError:
