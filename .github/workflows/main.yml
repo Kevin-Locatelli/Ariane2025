@@ -57,8 +57,8 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
-          name: windows-release
-          path: ariane_app/build/windows/runner/Release/
+          name: windows-build
+          path: ariane_app/build/windows/
 
   release:
     needs: build
@@ -70,16 +70,19 @@ jobs:
       - name: Download artifact
         uses: actions/download-artifact@v4
         with:
-          name: windows-release
-          path: ariane_app/build/windows/runner/Release/
+          name: windows-build
+          path: windows-build
+
+      - name: List downloaded artifact structure
+        run: ls -R windows-build
 
       - name: Create Release
         uses: softprops/action-gh-release@v2
         with:
           files: |
-            ariane_app/build/windows/runner/Release/ariane_app.exe
-            ariane_app/build/windows/runner/Release/flutter_windows.dll
-            ariane_app/build/windows/runner/Release/runner.dll
+            windows-build/runner/Release/ariane_app.exe
+            windows-build/runner/Release/flutter_windows.dll
+            windows-build/runner/Release/runner.dll
           body: "Release ${{ github.ref_name }}"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
