@@ -1,1 +1,1 @@
- - Aller dans ariane_app pour plus d'information
+Aller dans ariane_app pour plus d'information
