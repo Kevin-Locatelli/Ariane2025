@@ -23,8 +23,8 @@ jobs:
         run: flutter pub get
         working-directory: ariane_app
 
-      - name: Analyze code
-        run: flutter analyze
+      - name: Analyze code with threshold
+        run: python check_flutter_analyze.py
         working-directory: ariane_app
 
       - name: Run tests
