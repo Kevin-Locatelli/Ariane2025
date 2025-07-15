@@ -9,7 +9,21 @@ on:
       - main
 
 jobs:
+  bump_version:
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: '0'
+      - name: Bump version and push tag
+        id: tag_version
+        uses: mathieudutour/github-tag-action@v6.1
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+
   build:
+    needs: bump_version
     runs-on: windows-latest
 
     steps:
@@ -44,20 +58,23 @@ jobs:
   release:
     needs: build
     if: startsWith(github.ref, 'refs/tags/')
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
     steps:
+      - uses: actions/checkout@v4
+
       - name: Download artifact
         uses: actions/download-artifact@v4
         with:
           name: windows-release
+          path: ariane_app/build/windows/runner/Release/
 
       - name: Create Release
         uses: softprops/action-gh-release@v2
         with:
           files: |
-            ariane_app.exe
-            flutter_windows.dll
-            Runner.dll
+            ariane_app/build/windows/runner/Release/ariane_app.exe
+            ariane_app/build/windows/runner/Release/flutter_windows.dll
+            ariane_app/build/windows/runner/Release/runner.dll
           body: "Release ${{ github.ref_name }}"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

@@ -29,15 +29,14 @@ void main() {
         ),
       );
 
-      // Verify that the title contains the game name
-      expect(find.byWidgetPredicate((widget) => widget is Text && widget.data!.contains(testGameName)), findsOneWidget);
+      final BuildContext context = tester.element(find.byType(ArianeResultScreen));
+      expect(find.text('${AppStrings.get(context, 'resultat_du_jeu')} $testGameName'), findsOneWidget);
 
       // Verify that the message and score are displayed
       expect(find.text(testMessage), findsOneWidget);
       expect(find.text('Score: $testScore'), findsOneWidget);
 
       // Verify that the 'Retour au menu' button is present
-      final BuildContext context = tester.element(find.byType(ArianeResultScreen));
       expect(find.widgetWithText(ElevatedButton, AppStrings.get(context, 'retour_au_menu')), findsOneWidget);
     });
   });

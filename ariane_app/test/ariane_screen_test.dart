@@ -1,4 +1,5 @@
 import 'package:ariane_app/providers/language_provider.dart';
+import 'package:ariane_app/utils/app_strings.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:ariane_app/screens/ariane_screen.dart';
@@ -10,8 +11,12 @@ void main() {
       await tester.pumpWidget(
         ChangeNotifierProvider(
           create: (_) => LanguageProvider(),
-          child: const MaterialApp(
-            home: ArianeScreen(),
+          child: MaterialApp(
+            home: Builder(
+              builder: (context) {
+                return const ArianeScreen();
+              }
+            ),
           ),
         ),
       );
@@ -24,14 +29,19 @@ void main() {
       await tester.pumpWidget(
         ChangeNotifierProvider(
           create: (_) => LanguageProvider(),
-          child: const MaterialApp(
-            home: ArianeScreen(),
+          child: MaterialApp(
+            home: Builder(
+              builder: (context) {
+                return const ArianeScreen();
+              }
+            ),
           ),
         ),
       );
 
       // Verify that the COMMENCER button is present
-      expect(find.widgetWithText(ElevatedButton, 'COMMENCER'), findsOneWidget);
+      final BuildContext context = tester.element(find.byType(ArianeScreen));
+      expect(find.widgetWithText(ElevatedButton, AppStrings.get(context, 'commencer')), findsOneWidget);
     });
   });
 }
