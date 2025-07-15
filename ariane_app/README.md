@@ -1,86 +1,86 @@
-# Ariane App
+# Application Ariane
 
-## Project Overview
+## Aperçu du projet
 
-Ariane App is an interactive Flutter application designed to provide engaging and educational experiences through various mini-games. It features a labyrinth game, a calculation game, and a Scratch-like block-based programming game. The application also incorporates score management and leverages TensorFlow Lite for potential machine learning functionalities.
+L'application Ariane est une application Flutter interactive conçue pour offrir des expériences engageantes et éducatives à travers divers mini-jeux. Elle propose un jeu de labyrinthe, un jeu de calcul et un jeu de programmation par blocs de type Scratch. L'application intègre également la gestion des scores et utilise TensorFlow Lite pour des fonctionnalités potentielles d'apprentissage automatique.
 
-## Features
+## Fonctionnalités
 
-*   **Labyrinth Game:** Create and solve mazes.
-*   **Calcul Game:** Practice mathematical calculations.
-*   **Scratch Game:** Learn basic programming concepts through a visual block-based interface.
-*   **Score Management:** Track and review your performance across different games.
-*   **Machine Learning Integration:** (Potential) Utilizes TensorFlow Lite for on-device ML capabilities, such as digit recognition in the Calcul game.
+*   **Jeu de labyrinthe :** Créez et résolvez des labyrinthes.
+*   **Jeu de calcul :** Entraînez-vous aux calculs mathématiques.
+*   **Jeu Scratch :** Apprenez les concepts de base de la programmation grâce à une interface visuelle basée sur des blocs.
+*   **Gestion des scores :** Suivez et consultez vos performances dans les différents jeux.
+*   **Intégration de l'apprentissage automatique :** (Potentiel) Utilise TensorFlow Lite pour les capacités d'apprentissage automatique sur l'appareil, telles que la reconnaissance de chiffres dans le jeu de calcul.
 
-## How to Launch the App
+## Comment lancer l'application
 
-To run the Ariane App, follow these steps:
+Pour exécuter l'application Ariane, suivez ces étapes :
 
-### Prerequisites
+### Prérequis
 
-*   **Flutter SDK:** Ensure you have Flutter installed. You can download it from the [official Flutter website](https://flutter.dev/docs/get-started/install).
-*   **IDE:** Visual Studio Code with the Flutter extension, or Android Studio with the Flutter and Dart plugins.
-*   **Connected Device/Emulator:** An Android device (physical or emulator), iOS device (physical or simulator), or a desktop environment (Windows, macOS, Linux) configured for Flutter development.
+*   **Flutter SDK :** Assurez-vous que Flutter est installé. Vous pouvez le télécharger depuis le [site officiel de Flutter](https://flutter.dev/docs/get-started/install).
+*   **IDE :** Visual Studio Code avec l'extension Flutter, ou Android Studio avec les plugins Flutter et Dart.
+*   **Appareil/Émulateur connecté :** Un appareil Android (physique ou émulateur), un appareil iOS (physique ou simulateur), ou un environnement de bureau (Windows, macOS, Linux) configuré pour le développement Flutter.
 
-### Setup
+### Configuration
 
-1.  **Clone the repository:**
+1.  **Cloner le dépôt :**
     ```bash
-    git clone <repository_url>
+    git clone <URL_du_dépôt>
     cd ariane_app
     ```
-2.  **Get dependencies:**
-    Navigate to the `ariane_app` directory and run:
+2.  **Obtenir les dépendances :**
+    Accédez au répertoire `ariane_app` et exécutez :
     ```bash
     flutter pub get
     ```
 
-### Running the App
+### Exécuter l'application
 
-#### On a Connected Device (Android/iOS)
+#### Sur un appareil connecté (Android/iOS)
 
-1.  Ensure your device is connected and recognized by Flutter:
+1.  Assurez-vous que votre appareil est connecté et reconnu par Flutter :
     ```bash
     flutter devices
     ```
-2.  Run the app on your device:
+2.  Exécutez l'application sur votre appareil :
     ```bash
     flutter run
     ```
-    If you have multiple devices connected, you might need to specify one using its ID:
+    Si plusieurs appareils sont connectés, vous devrez peut-être en spécifier un en utilisant son ID :
     ```bash
-    flutter run -d <device_id>
+    flutter run -d <ID_de_l'appareil>
     ```
 
-#### On Windows Desktop
+#### Sur le bureau Windows
 
-1.  Enable Windows desktop development for Flutter:
+1.  Activez le développement de bureau Windows pour Flutter :
     ```bash
     flutter config --enable-windows-desktop
     ```
-2.  Run the app:
+2.  Exécutez l'application :
     ```bash
     flutter run -d windows
     ```
 
-#### On Web (Chrome/Edge)
+#### Sur le Web (Chrome/Edge)
 
-1.  Enable web development for Flutter:
+1.  Activez le développement Web pour Flutter :
     ```bash
     flutter config --enable-web
     ```
-2.  Run the app on your preferred web browser:
+2.  Exécutez l'application sur votre navigateur Web préféré :
     ```bash
     flutter run -d chrome
-    # or
+    # ou
     flutter run -d edge
     ```
 
-## What You Can Do with the App
+## Ce que vous pouvez faire avec l'application
 
-Once the app is running, you can:
+Une fois l'application lancée, vous pouvez :
 
-*   **Play Games:** Explore the Labyrinth, Calcul, and Scratch games from the main menu.
-*   **Track Scores:** View your past game results and scores on the dedicated results screen.
-*   **Customize Settings:** Adjust audio volumes and change the application language in the settings page.
-*   **Learn and Have Fun:** Engage with the interactive elements and enjoy the educational aspects of the games.
+*   **Jouer à des jeux :** Explorez les jeux Labyrinthe, Calcul et Scratch depuis le menu principal.
+*   **Suivre les scores :** Consultez vos résultats et scores de jeu précédents sur l'écran des résultats dédié.
+*   **Personnaliser les paramètres :** Ajustez le volume audio et changez la langue de l'application dans la page des paramètres.
+*   **Apprendre et s'amuser :** Interagissez avec les éléments interactifs et profitez des aspects éducatifs des jeux.
