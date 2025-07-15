@@ -47,7 +47,7 @@ class ParametrePageState extends State<ParametrePage> {
             children: [
               _buildAudioSection(context),
               SizedBox(height: kSizedBoxHeightLarge),
-              _buildSystemSection(context, _selectedLanguage),
+              _buildSystemSection(context, selectedLanguage),
             ],
           ),
         ),

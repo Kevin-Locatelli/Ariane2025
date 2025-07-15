@@ -23,7 +23,7 @@ jobs:
         working-directory: ariane_app
 
       - name: Analyze code
-        run: flutter analyze
+        run: python check_flutter_analyze.py
         working-directory: ariane_app
 
       - name: Run tests

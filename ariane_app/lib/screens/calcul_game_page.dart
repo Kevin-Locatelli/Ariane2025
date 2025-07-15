@@ -307,17 +307,18 @@ class CalculPageState extends State<CalculPage> {
         score: _currentScore,
         message: message,
       );
-      if (!mounted) return;
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-          builder: (context) => ArianeResultScreen(
-            score: _currentScore,
-            message: message,
-            gameName: 'Calcul',
+      if (mounted) {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (context) => ArianeResultScreen(
+              score: _currentScore,
+              message: message,
+              gameName: 'Calcul',
+            ),
           ),
-        ),
-      );
+        );
+      }
     }
   }
 
