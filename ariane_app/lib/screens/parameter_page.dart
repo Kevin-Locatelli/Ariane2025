@@ -1,6 +1,8 @@
+import 'package:ariane_app/providers/language_provider.dart';
+import 'package:ariane_app/utils/app_strings.dart';
 import 'package:flutter/material.dart';
 import 'package:ariane_app/constants.dart';
-import 'package:ariane_app/widgets/red_dot_character.dart';
+import 'package:provider/provider.dart';
 
 class ParametrePage extends StatefulWidget {
   const ParametrePage({super.key});
@@ -12,42 +14,28 @@ class ParametrePage extends StatefulWidget {
 class ParametrePageState extends State<ParametrePage> {
   double _musiqueVolume = 0.9;
   double _effetsSonoresVolume = 0.4;
-  String _selectedLanguage = 'Français';
-
-  final List<String> _languages = [
-    'Français',
-    'English',
-    'Español',
-    'Deutsch',
-    'Italiano',
-  ];
 
   @override
   Widget build(BuildContext context) {
+    final languageProvider = Provider.of<LanguageProvider>(context);
+    String _selectedLanguage = languageProvider.currentLocale.languageCode == 'fr' ? 'Français' : 'English';
+
     return Scaffold(
-      backgroundColor: kBackgroundColor,
       appBar: AppBar(
-        backgroundColor: kCardColor,
-        elevation: kElevation,
-        shadowColor: Colors.black.withAlpha((0.1 * 255).round()),
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+        elevation: 0,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: Colors.black, size: kIconSize),
+          icon: Icon(Icons.arrow_back, color: Theme.of(context).colorScheme.primary, size: kIconSize),
           onPressed: () => Navigator.of(context).pop(),
         ),
-        title: Row(
-          children: [
-            // Red panda mascot
-            RedDotCharacter(size: kMascotSize),
-            SizedBox(width: kSizedBoxWidthMedium),
-            Text(
-              'Paramètre',
-              style: TextStyle(
-                color: Colors.black,
-                fontSize: kFontSizeLarge,
-                fontWeight: FontWeight.w400,
-              ),
-            ),
-          ],
+        centerTitle: true,
+        title: Text(
+          AppStrings.get(context, 'parametres'),
+          style: TextStyle(
+            color: Theme.of(context).colorScheme.primary,
+            fontSize: kFontSizeLarge,
+            fontWeight: FontWeight.w400,
+          ),
         ),
         toolbarHeight: kAppBarHeight,
       ),
@@ -57,9 +45,9 @@ class ParametrePageState extends State<ParametrePage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              _buildAudioSection(),
+              _buildAudioSection(context),
               SizedBox(height: kSizedBoxHeightLarge),
-              _buildSystemSection(),
+              _buildSystemSection(context, _selectedLanguage),
             ],
           ),
         ),
@@ -67,12 +55,14 @@ class ParametrePageState extends State<ParametrePage> {
     );
   }
 
-  Widget _buildAudioSection() {
+  Widget _buildAudioSection(BuildContext context) {
     return _buildSectionContainer(
-      title: 'Audio',
+      context: context,
+      title: AppStrings.get(context, 'audio'),
       children: [
         _buildSliderContainer(
-          label: 'Musique',
+          context: context,
+          label: AppStrings.get(context, 'musique'),
           icon: Icons.volume_up,
           value: _musiqueVolume,
           onChanged: (value) {
@@ -83,7 +73,8 @@ class ParametrePageState extends State<ParametrePage> {
         ),
         SizedBox(height: kSizedBoxHeightMedium),
         _buildSliderContainer(
-          label: 'Effets sonores',
+          context: context,
+          label: AppStrings.get(context, 'effets_sonores'),
           icon: Icons.graphic_eq,
           value: _effetsSonoresVolume,
           onChanged: (value) {
@@ -96,16 +87,18 @@ class ParametrePageState extends State<ParametrePage> {
     );
   }
 
-  Widget _buildSystemSection() {
+  Widget _buildSystemSection(BuildContext context, String selectedLanguage) {
     return _buildSectionContainer(
-      title: 'Système',
+      context: context,
+      title: AppStrings.get(context, 'systeme'),
       children: [
-        _buildLanguageDropdown(),
+        _buildLanguageDropdown(context, selectedLanguage),
       ],
     );
   }
 
   Widget _buildSectionContainer({
+    required BuildContext context,
     required String title,
     required List<Widget> children,
   }) {
@@ -113,11 +106,11 @@ class ParametrePageState extends State<ParametrePage> {
       width: double.infinity,
       padding: EdgeInsets.all(kPaddingExtraLarge),
       decoration: BoxDecoration(
-        color: kCardColor,
+        color: Theme.of(context).cardColor,
         borderRadius: BorderRadius.circular(kBorderRadius),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withAlpha((0.08 * 255).round()),
+            color: kShadowColor,
             spreadRadius: kSpreadRadius,
             blurRadius: kBlurRadius,
             offset: Offset(kOffsetX, kOffsetY),
@@ -132,7 +125,7 @@ class ParametrePageState extends State<ParametrePage> {
             style: TextStyle(
               fontSize: kFontSizeMedium,
               fontWeight: FontWeight.w500,
-              color: kInactiveColor,
+              color: Theme.of(context).textTheme.bodyMedium!.color,
             ),
           ),
           SizedBox(height: kSizedBoxHeightLarge),
@@ -143,6 +136,7 @@ class ParametrePageState extends State<ParametrePage> {
   }
 
   Widget _buildSliderContainer({
+    required BuildContext context,
     required String label,
     required IconData icon,
     required double value,
@@ -151,7 +145,7 @@ class ParametrePageState extends State<ParametrePage> {
     return Container(
       padding: EdgeInsets.all(kPaddingLarge),
       decoration: BoxDecoration(
-        color: kLightGreyColor,
+        color: Theme.of(context).scaffoldBackgroundColor,
         borderRadius: BorderRadius.circular(kSmallBorderRadius),
         border: Border.all(color: kBorderColor, width: 0.5),
       ),
@@ -164,26 +158,26 @@ class ParametrePageState extends State<ParametrePage> {
                 label,
                 style: TextStyle(
                   fontSize: kFontSizeSmall,
-                  color: kInactiveColor,
+                  color: Theme.of(context).textTheme.bodyMedium!.color,
                   fontWeight: FontWeight.w400,
                 ),
               ),
               SizedBox(width: kSizedBoxWidthSmall),
               Icon(
                 icon,
-                color: Colors.black54,
-                size: kIconSize - 6, // Adjusted size for consistency
+                color: kTextColorSecondary,
+                size: kIconSize - 6,
               ),
             ],
           ),
           SizedBox(height: kSizedBoxHeightMedium),
           SliderTheme(
             data: SliderTheme.of(context).copyWith(
-              activeTrackColor: kPrimaryColor,
+              activeTrackColor: Theme.of(context).colorScheme.primary,
               inactiveTrackColor: kBorderColor,
-              thumbColor: kCardColor,
+              thumbColor: Theme.of(context).cardColor,
               thumbShape: RoundSliderThumbShape(enabledThumbRadius: kThumbRadius),
-              overlayColor: kPrimaryColor.withAlpha((0.2 * 255).round()),
+              overlayColor: Theme.of(context).colorScheme.primary.withOpacity(0.2),
               overlayShape: RoundSliderOverlayShape(overlayRadius: kOverlayRadius),
               trackHeight: kTrackHeight,
             ),
@@ -199,21 +193,21 @@ class ParametrePageState extends State<ParametrePage> {
     );
   }
 
-  Widget _buildLanguageDropdown() {
+  Widget _buildLanguageDropdown(BuildContext context, String selectedLanguage) {
     return Container(
       padding: EdgeInsets.all(kPaddingLarge),
       decoration: BoxDecoration(
-        color: kLightGreyColor,
+        color: Theme.of(context).scaffoldBackgroundColor,
         borderRadius: BorderRadius.circular(kSmallBorderRadius),
         border: Border.all(color: kBorderColor, width: 0.5),
       ),
       child: Row(
         children: [
           Text(
-            'Langue :',
+            '${AppStrings.get(context, 'langue')} :',
             style: TextStyle(
               fontSize: kFontSizeSmall,
-              color: kInactiveColor,
+              color: Theme.of(context).textTheme.bodyMedium!.color,
               fontWeight: FontWeight.w400,
             ),
           ),
@@ -221,24 +215,24 @@ class ParametrePageState extends State<ParametrePage> {
           Container(
             padding: EdgeInsets.symmetric(horizontal: kPaddingMedium, vertical: kPaddingSmall),
             decoration: BoxDecoration(
-              color: kCardColor,
+              color: Theme.of(context).cardColor,
               borderRadius: BorderRadius.circular(kTinyBorderRadius),
-              border: Border.all(color: kDropdownBorderColor),
+              border: Border.all(color: kBorderColor),
             ),
             child: DropdownButton<String>(
-              value: _selectedLanguage,
+              value: selectedLanguage,
               underline: SizedBox(),
               icon: Icon(
                 Icons.keyboard_arrow_down,
-                color: kInactiveColor,
+                color: kTextColorSecondary,
                 size: kIconSize,
               ),
               style: TextStyle(
-                color: kInactiveColor,
+                color: Theme.of(context).textTheme.bodyMedium!.color,
                 fontSize: kFontSizeSmall,
                 fontWeight: FontWeight.w400,
               ),
-              items: _languages.map((String language) {
+              items: ['Français', 'English'].map((String language) {
                 return DropdownMenuItem<String>(
                   value: language,
                   child: Text(language),
@@ -246,9 +240,12 @@ class ParametrePageState extends State<ParametrePage> {
               }).toList(),
               onChanged: (String? newValue) {
                 if (newValue != null) {
-                  setState(() {
-                    _selectedLanguage = newValue;
-                  });
+                  final languageProvider = Provider.of<LanguageProvider>(context, listen: false);
+                  if (newValue == 'English') {
+                    languageProvider.setLocale(const Locale('en'));
+                  } else {
+                    languageProvider.setLocale(const Locale('fr'));
+                  }
                 }
               },
             ),

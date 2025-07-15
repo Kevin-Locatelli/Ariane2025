@@ -1,3 +1,4 @@
+import 'package:ariane_app/utils/app_strings.dart';
 import 'package:flutter/material.dart';
 import 'package:ariane_app/constants.dart';
 
@@ -16,19 +17,18 @@ class ArianeResultScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: kBackgroundColor,
       appBar: AppBar(
-        backgroundColor: kBackgroundColor,
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         elevation: 0,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: Colors.black, size: kIconSize),
+          icon: Icon(Icons.arrow_back, color: Theme.of(context).colorScheme.primary, size: kIconSize),
           onPressed: () => Navigator.of(context).pop(),
         ),
         centerTitle: true,
         title: Text(
-          'Résultat du $gameName',
+          '${AppStrings.get(context, 'resultat_du_jeu')} $gameName',
           style: TextStyle(
-            color: Colors.black,
+            color: Theme.of(context).colorScheme.primary,
             fontSize: kFontSizeMedium,
             fontWeight: FontWeight.w500,
           ),
@@ -46,7 +46,7 @@ class ArianeResultScreen extends StatelessWidget {
                 style: TextStyle(
                   fontSize: kFontSizeLarge,
                   fontWeight: FontWeight.bold,
-                  color: Colors.black87,
+                  color: Theme.of(context).textTheme.bodyMedium!.color,
                 ),
               ),
               SizedBox(height: kSizedBoxHeightLarge),
@@ -54,7 +54,7 @@ class ArianeResultScreen extends StatelessWidget {
                 'Score: $score',
                 style: TextStyle(
                   fontSize: kFontSizeMedium,
-                  color: Colors.black87,
+                  color: Theme.of(context).textTheme.bodyMedium!.color,
                 ),
               ),
               SizedBox(height: kSizedBoxHeightLarge * 2),
@@ -66,14 +66,14 @@ class ArianeResultScreen extends StatelessWidget {
                   );
                 },
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: kPrimaryColor,
+                  backgroundColor: Theme.of(context).colorScheme.primary,
                   padding: EdgeInsets.symmetric(horizontal: kPaddingExtraLarge, vertical: kPaddingMedium),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(kBorderRadiusLarge),
                   ),
                 ),
                 child: Text(
-                  'Retour au menu',
+                  AppStrings.get(context, 'retour_au_menu'),
                   style: TextStyle(
                     fontSize: kFontSizeSmall,
                     color: Colors.white,

@@ -1,7 +1,9 @@
+import 'package:ariane_app/utils/app_strings.dart';
 import 'package:flutter/material.dart';
 import 'package:ariane_app/screens/ariane_menu_screen.dart';
 import 'package:ariane_app/screens/parameter_page.dart';
 import 'package:ariane_app/screens/ariane_all_results_screen.dart';
+import 'package:ariane_app/constants.dart';
 
 class ArianeFooter extends StatelessWidget {
   final int selectedIndex;
@@ -18,11 +20,11 @@ class ArianeFooter extends StatelessWidget {
     return Container(
       height: 80,
       decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(25),
+        color: Theme.of(context).cardColor,
+        borderRadius: BorderRadius.circular(kBorderRadiusLarge),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withAlpha((255 * 0.1).round()),
+            color: kShadowColor,
             blurRadius: 10,
             offset: const Offset(0, -2),
           ),
@@ -31,43 +33,43 @@ class ArianeFooter extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-          ArianeFooter._buildBottomNavItem(
+          _buildBottomNavItem(
             context,
             selectedIndex: selectedIndex,
             icon: Icons.emoji_events,
-            label: 'Résultat',
+            label: AppStrings.get(context, 'resultats'),
             index: 0,
             onTap: () {
               onItemTapped(0);
-              Navigator.push(
+              Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(builder: (context) => const ArianeAllResultsScreen()),
               );
             },
           ),
-          ArianeFooter._buildBottomNavItem(
+          _buildBottomNavItem(
             context,
             selectedIndex: selectedIndex,
             icon: Icons.sports_esports,
-            label: 'Jeux',
+            label: AppStrings.get(context, 'jeux'),
             index: 1,
             onTap: () {
               onItemTapped(1);
-              Navigator.push(
+              Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(builder: (context) => const ArianeMenuScreen()),
               );
             },
           ),
-          ArianeFooter._buildBottomNavItem(
+          _buildBottomNavItem(
             context,
             selectedIndex: selectedIndex,
             icon: Icons.settings,
-            label: 'Paramètre',
+            label: AppStrings.get(context, 'parametres'),
             index: 2,
             onTap: () {
               onItemTapped(2);
-              Navigator.push(
+              Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(builder: (context) => ParametrePage()),
               );
@@ -78,7 +80,7 @@ class ArianeFooter extends StatelessWidget {
     );
   }
 
-  static Widget _buildBottomNavItem(
+  Widget _buildBottomNavItem(
     BuildContext context, {
     required int selectedIndex,
     required IconData icon,
@@ -86,25 +88,28 @@ class ArianeFooter extends StatelessWidget {
     required int index,
     required VoidCallback onTap,
   }) {
+    final bool isSelected = selectedIndex == index;
+    final Color color = isSelected ? Theme.of(context).colorScheme.primary : kTextColorSecondary;
+
     return GestureDetector(
       onTap: onTap,
       child: SizedBox(
-        width: 80, // Increased width for larger hitbox
-        height: 80, // Increased height for larger hitbox
+        width: 80,
+        height: 80,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Icon(
               icon,
               size: 28,
-              color: selectedIndex == index ? Colors.blue : Colors.black87, // Highlight selected item
+              color: color,
             ),
             const SizedBox(height: 4),
             Text(
               label,
               style: TextStyle(
                 fontSize: 12,
-                color: selectedIndex == index ? Colors.blue : Colors.black87, // Highlight selected item
+                color: color,
                 fontWeight: FontWeight.w500,
               ),
             ),

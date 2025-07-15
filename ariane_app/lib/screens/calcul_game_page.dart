@@ -53,12 +53,11 @@ class CalculPageState extends State<CalculPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: kBackgroundColor,
       appBar: AppBar(
-        backgroundColor: kBackgroundColor,
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         elevation: 0,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: Colors.black, size: kIconSize),
+          icon: Icon(Icons.arrow_back, color: Theme.of(context).colorScheme.primary, size: kIconSize),
           onPressed: () async {
             // Save current score before leaving
             await ScoreManager.saveScore(
@@ -83,7 +82,7 @@ class CalculPageState extends State<CalculPage> {
         title: Text(
           'Calcul',
           style: TextStyle(
-            color: Colors.black,
+            color: Theme.of(context).colorScheme.primary,
             fontSize: kFontSizeMedium,
             fontWeight: FontWeight.w500,
           ),
@@ -98,7 +97,7 @@ class CalculPageState extends State<CalculPage> {
               'Saisi dans la zone de texte le résultat du calcul :',
               style: TextStyle(
                 fontSize: kFontSizeSmall,
-                color: Colors.black87,
+                color: Theme.of(context).textTheme.bodyMedium!.color,
                 fontWeight: FontWeight.w400,
               ),
               textAlign: TextAlign.center,
@@ -109,12 +108,12 @@ class CalculPageState extends State<CalculPage> {
             Container(
               padding: EdgeInsets.symmetric(horizontal: kPaddingExtraLarge, vertical: kPaddingMedium),
               decoration: BoxDecoration(
-                color: kCardColor,
+                color: Theme.of(context).cardColor,
                 borderRadius: BorderRadius.circular(kBorderRadiusLarge),
-                border: Border.all(color: kPrimaryColor, width: 2),
+                border: Border.all(color: Theme.of(context).colorScheme.primary, width: 2),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.black.withAlpha((0.05 * 255).round()),
+                    color: kShadowColor.withOpacity(0.5), // Adjusted opacity
                     spreadRadius: kSpreadRadiusSmall,
                     blurRadius: kBlurRadiusSmall,
                     offset: Offset(kOffsetX, kOffsetY),
@@ -125,7 +124,7 @@ class CalculPageState extends State<CalculPage> {
                 _currentQuestion,
                 style: TextStyle(
                   fontSize: kFontSizeMedium,
-                  color: Colors.black87,
+                  color: Theme.of(context).textTheme.bodyMedium!.color,
                   fontWeight: FontWeight.w500,
                 ),
               ),
@@ -139,12 +138,12 @@ class CalculPageState extends State<CalculPage> {
                 width: double.infinity,
                 margin: EdgeInsets.only(bottom: kPaddingMedium),
                 decoration: BoxDecoration(
-                  color: kCardColor,
+                  color: Theme.of(context).cardColor,
                   borderRadius: BorderRadius.circular(kBorderRadius),
                   border: Border.all(color: kBorderColor, width: 2),
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.black.withAlpha((0.08 * 255).round()),
+                      color: kShadowColor, // Using kShadowColor directly
                       spreadRadius: kSpreadRadius,
                       blurRadius: kBlurRadius,
                       offset: Offset(kOffsetX, kOffsetY),
@@ -163,7 +162,7 @@ class CalculPageState extends State<CalculPage> {
                       _points.add(null);
                     },
                     child: CustomPaint(
-                      painter: DrawingPainter(_points),
+                      painter: DrawingPainter(_points, Theme.of(context).textTheme.bodyMedium!.color!),
                       size: Size.infinite,
                       child: SizedBox(
                         width: double.infinity,
@@ -176,14 +175,14 @@ class CalculPageState extends State<CalculPage> {
                                   Icon(
                                     Icons.edit,
                                     size: kIconSizeLarge,
-                                    color: Colors.grey[400],
+                                    color: kTextColorSecondary,
                                   ),
                                   SizedBox(height: kSizedBoxHeightMedium),
                                   Text(
                                     'Dessinez votre réponse ici',
                                     style: TextStyle(
                                       fontSize: kFontSizeSmall,
-                                      color: Colors.grey[500],
+                                      color: kTextColorSecondary,
                                       fontWeight: FontWeight.w400,
                                     ),
                                   ),
@@ -212,12 +211,12 @@ class CalculPageState extends State<CalculPage> {
                   child: Container(
                     padding: EdgeInsets.symmetric(horizontal: kPaddingExtraLarge, vertical: kPaddingMedium),
                     decoration: BoxDecoration(
-                      color: kCardColor,
+                      color: Theme.of(context).cardColor,
                       borderRadius: BorderRadius.circular(kBorderRadiusLarge),
-                      border: Border.all(color: kPrimaryColor, width: 2),
+                      border: Border.all(color: Theme.of(context).colorScheme.primary, width: 2),
                       boxShadow: [
                         BoxShadow(
-                          color: Colors.black.withAlpha((0.08 * 255).round()),
+                          color: kShadowColor, // Using kShadowColor directly
                           spreadRadius: kSpreadRadiusSmall,
                           blurRadius: kBlurRadiusSmall,
                           offset: Offset(kOffsetX, kOffsetY),
@@ -227,7 +226,7 @@ class CalculPageState extends State<CalculPage> {
                     child: Text(
                       'Reset',
                       style: TextStyle(
-                        color: kPrimaryColor,
+                        color: Theme.of(context).colorScheme.primary,
                         fontSize: kFontSizeSmall,
                         fontWeight: FontWeight.w500,
                       ),
@@ -243,12 +242,12 @@ class CalculPageState extends State<CalculPage> {
                   child: Container(
                     padding: EdgeInsets.symmetric(horizontal: kPaddingExtraLarge, vertical: kPaddingMedium),
                     decoration: BoxDecoration(
-                      color: kCardColor,
+                      color: Theme.of(context).cardColor,
                       borderRadius: BorderRadius.circular(kBorderRadiusLarge),
-                      border: Border.all(color: kPrimaryColor, width: 2),
+                      border: Border.all(color: Theme.of(context).colorScheme.primary, width: 2),
                       boxShadow: [
                         BoxShadow(
-                          color: Colors.black.withAlpha((0.08 * 255).round()),
+                          color: kShadowColor, // Using kShadowColor directly
                           spreadRadius: kSpreadRadiusSmall,
                           blurRadius: kBlurRadiusSmall,
                           offset: Offset(kOffsetX, kOffsetY),
@@ -258,7 +257,7 @@ class CalculPageState extends State<CalculPage> {
                     child: Text(
                       'Valider',
                       style: TextStyle(
-                        color: kPrimaryColor,
+                        color: Theme.of(context).colorScheme.primary,
                         fontSize: kFontSizeSmall,
                         fontWeight: FontWeight.w500,
                       ),
@@ -427,13 +426,14 @@ class CalculPageState extends State<CalculPage> {
 
 class DrawingPainter extends CustomPainter {
   final List<Offset?> points;
+  final Color color;
   
-  DrawingPainter(this.points);
+  DrawingPainter(this.points, this.color);
   
   @override
   void paint(Canvas canvas, Size size) {
     Paint paint = Paint()
-      ..color = Colors.black87
+      ..color = color
       ..strokeCap = StrokeCap.round
       ..strokeWidth = kStrokeWidth;
     

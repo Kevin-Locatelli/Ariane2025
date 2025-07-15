@@ -1,3 +1,4 @@
+import 'package:ariane_app/utils/app_strings.dart';
 import 'package:flutter/material.dart';
 import 'package:ariane_app/constants.dart';
 import 'package:ariane_app/utils/score_manager.dart';
@@ -33,19 +34,18 @@ class _ArianeAllResultsScreenState extends State<ArianeAllResultsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: kBackgroundColor,
       appBar: AppBar(
-        backgroundColor: kBackgroundColor,
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         elevation: 0,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: Colors.black, size: kIconSize),
+          icon: Icon(Icons.arrow_back, color: Theme.of(context).colorScheme.primary, size: kIconSize),
           onPressed: () => Navigator.of(context).pop(),
         ),
         centerTitle: true,
         title: Text(
-          'Tous les Résultats',
+          AppStrings.get(context, 'tous_les_resultats'),
           style: TextStyle(
-            color: Colors.black,
+            color: Theme.of(context).colorScheme.primary,
             fontSize: kFontSizeMedium,
             fontWeight: FontWeight.w500,
           ),
@@ -59,10 +59,10 @@ class _ArianeAllResultsScreenState extends State<ArianeAllResultsScreen> {
               child: _scores.isEmpty
                   ? Center(
                       child: Text(
-                        'Aucun résultat enregistré.',
+                        AppStrings.get(context, 'aucun_resultat'),
                         style: TextStyle(
                           fontSize: kFontSizeMedium,
-                          color: Colors.grey[600],
+                          color: kTextColorSecondary,
                         ),
                       ),
                     )
@@ -73,6 +73,7 @@ class _ArianeAllResultsScreenState extends State<ArianeAllResultsScreen> {
                         return Card(
                           margin: const EdgeInsets.symmetric(vertical: kPaddingSmall),
                           elevation: kElevation,
+                          color: Theme.of(context).cardColor,
                           child: Padding(
                             padding: const EdgeInsets.all(kPaddingMedium),
                             child: Column(
@@ -83,24 +84,25 @@ class _ArianeAllResultsScreenState extends State<ArianeAllResultsScreen> {
                                   style: TextStyle(
                                     fontSize: kFontSizeSmall,
                                     fontWeight: FontWeight.bold,
+                                    color: Theme.of(context).textTheme.bodyMedium!.color,
                                   ),
                                 ),
                                 SizedBox(height: kSizedBoxHeightSmall),
                                 Text(
                                   'Score: ${scoreEntry['score']}',
-                                  style: TextStyle(fontSize: kFontSizeSmall),
+                                  style: TextStyle(fontSize: kFontSizeSmall, color: Theme.of(context).textTheme.bodyMedium!.color),
                                 ),
                                 SizedBox(height: kSizedBoxHeightSmall),
                                 Text(
                                   'Message: ${scoreEntry['message']}',
-                                  style: TextStyle(fontSize: kFontSizeSmall),
+                                  style: TextStyle(fontSize: kFontSizeSmall, color: Theme.of(context).textTheme.bodyMedium!.color),
                                 ),
                                 SizedBox(height: kSizedBoxHeightSmall),
                                 Text(
                                   'Date: ${DateTime.parse(scoreEntry['timestamp']).toLocal().toString().split('.')[0]}',
                                   style: TextStyle(
                                     fontSize: kFontSizeExtraSmall,
-                                    color: Colors.grey[600],
+                                    color: kTextColorSecondary,
                                   ),
                                 ),
                               ],
@@ -114,14 +116,14 @@ class _ArianeAllResultsScreenState extends State<ArianeAllResultsScreen> {
             ElevatedButton(
               onPressed: _clearScores,
               style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.red,
+                backgroundColor: kErrorColor,
                 padding: EdgeInsets.symmetric(horizontal: kPaddingExtraLarge, vertical: kPaddingMedium),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(kBorderRadiusLarge),
                 ),
               ),
               child: Text(
-                'Effacer les résultats',
+                AppStrings.get(context, 'effacer_les_resultats'),
                 style: TextStyle(
                   fontSize: kFontSizeSmall,
                   color: Colors.white,
@@ -134,14 +136,14 @@ class _ArianeAllResultsScreenState extends State<ArianeAllResultsScreen> {
                 Navigator.popUntil(context, ModalRoute.withName('/')); // Go back to main menu
               },
               style: ElevatedButton.styleFrom(
-                backgroundColor: kPrimaryColor,
+                backgroundColor: Theme.of(context).colorScheme.primary,
                 padding: EdgeInsets.symmetric(horizontal: kPaddingExtraLarge, vertical: kPaddingMedium),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(kBorderRadiusLarge),
                 ),
               ),
               child: Text(
-                'Retour au menu',
+                AppStrings.get(context, 'retour_au_menu'),
                 style: TextStyle(
                   fontSize: kFontSizeSmall,
                   color: Colors.white,

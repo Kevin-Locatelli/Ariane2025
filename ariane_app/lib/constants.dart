@@ -1,14 +1,18 @@
 import 'package:flutter/material.dart';
 
 // Colors
-const Color kBackgroundColor = Color(0xFFF5F5F5);
-const Color kCardColor = Colors.white;
-const Color kShadowColor = Color(0x14000000); // 0.08 opacity
-const Color kPrimaryColor = Color(0xFFE57373); // Reddish color for active elements
-const Color kInactiveColor = Colors.black87;
-const Color kBorderColor = Color(0xFFE0E0E0);
-const Color kLightGreyColor = Color(0xFFF8F8F8);
-const Color kDropdownBorderColor = Color(0xFFD0D0D0);
+const Color kBackgroundColor = Color(0xFFFFFFFF); // White
+const Color kSurfaceColor = Color(0xFFF8F9FA); // Very light grey
+const Color kPrimaryColor = Color(0xFF0D47A1); // Deep Blue
+const Color kAccentColor = Color(0xFFFFC107); // Amber/Gold
+const Color kTextColorPrimary = Color(0xFF212121); // Almost Black
+const Color kTextColorSecondary = Color(0xFF757575); // Grey
+const Color kBorderColor = Color(0xFFBDBDBD); // Lighter Grey
+const Color kSuccessColor = Color(0xFF4CAF50); // Green
+const Color kErrorColor = Color(0xFFD32F2F); // Red
+
+// Existing colors that might need remapping or removal
+const Color kShadowColor = Color(0x14000000); // 0.08 opacity - keeping as is for now
 
 // Spacing
 const double kPaddingSmall = 8.0;

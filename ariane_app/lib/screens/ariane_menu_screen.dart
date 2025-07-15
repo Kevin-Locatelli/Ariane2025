@@ -1,3 +1,4 @@
+import 'package:ariane_app/utils/app_strings.dart';
 import 'package:flutter/material.dart';
 import 'package:ariane_app/widgets/ariane_footer.dart';
 import 'package:ariane_app/screens/labyrinth_game_page.dart'; // Import the labyrinth game page
@@ -10,124 +11,22 @@ class ArianeMenuScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[100],
       appBar: AppBar(
-        backgroundColor: kCardColor,
-        elevation: kElevation * 2,
-        centerTitle: false,
-        title: const Text(
-          'ARIANE',
+        iconTheme: IconThemeData(
+          color: Theme.of(context).colorScheme.primary,
+        ),
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+        elevation: 0,
+        centerTitle: true,
+        title: Text(
+          AppStrings.get(context, 'title'),
           style: TextStyle(
             fontSize: kFontSizeLarge - 4,
             fontWeight: FontWeight.bold,
-            color: kInactiveColor,
+            color: Theme.of(context).colorScheme.primary,
             letterSpacing: 1,
           ),
         ),
-        actions: [
-          Padding(
-            padding: const EdgeInsets.only(right: kPaddingLarge),
-            child: Container(
-              width: 40,
-              height: 40,
-              decoration: BoxDecoration(
-                color: Colors.red[700],
-                borderRadius: BorderRadius.circular(20),
-              ),
-              child: Stack(
-                alignment: Alignment.center,
-                children: [
-                  // Ears
-                  Positioned(
-                    top: 2,
-                    left: 8,
-                    child: Container(
-                      width: 6,
-                      height: 6,
-                      decoration: BoxDecoration(
-                        color: Colors.red[800],
-                        borderRadius: BorderRadius.circular(3),
-                      ),
-                    ),
-                  ),
-                  Positioned(
-                    top: 2,
-                    right: 8,
-                    child: Container(
-                      width: 6,
-                      height: 6,
-                      decoration: BoxDecoration(
-                        color: Colors.red[800],
-                        borderRadius: BorderRadius.circular(3),
-                      ),
-                    ),
-                  ),
-                  // Face
-                  Container(
-                    width: 25,
-                    height: 25,
-                    decoration: BoxDecoration(
-                      color: Colors.red[600],
-                      borderRadius: BorderRadius.circular(12.5),
-                    ),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        // Eyes
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            Container(
-                              width: 3,
-                              height: 3,
-                              decoration: BoxDecoration(
-                                color: Colors.black,
-                                borderRadius: BorderRadius.circular(1.5),
-                              ),
-                            ),
-                            Container(
-                              width: 3,
-                              height: 3,
-                              decoration: BoxDecoration(
-                                color: Colors.black,
-                                borderRadius: BorderRadius.circular(1.5),
-                              ),
-                            ),
-                          ],
-                        ),
-                        const SizedBox(height: 2),
-                        // Mouth
-                        Container(
-                          width: 4,
-                          height: 2,
-                          decoration: BoxDecoration(
-                            color: Colors.black,
-                            borderRadius: BorderRadius.circular(1),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  // Cape
-                  Positioned(
-                    bottom: -2,
-                    child: Container(
-                      width: 15,
-                      height: 10,
-                      decoration: BoxDecoration(
-                        color: Colors.red[800],
-                        borderRadius: const BorderRadius.only(
-                          bottomLeft: Radius.circular(7),
-                          bottomRight: Radius.circular(7),
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ],
       ),
       body: Padding(
         padding: const EdgeInsets.all(kPaddingLarge),
@@ -139,9 +38,10 @@ class ArianeMenuScreen extends StatelessWidget {
                 children: [
                   // Labyrinthe Card
                   _buildMenuCard(
-                    title: 'Labyrinthe',
-                    description: 'Créer ton labyrinthe et laisse Michel le résoudre tout seul',
-                    color: Colors.orange[200]!,
+                    context: context,
+                    title: AppStrings.get(context, 'labyrinthe'),
+                    description: AppStrings.get(context, 'labyrinthe_description'),
+                    color: Theme.of(context).colorScheme.secondary,
                     onTap: () {
                       Navigator.push(
                         context,
@@ -154,9 +54,10 @@ class ArianeMenuScreen extends StatelessWidget {
 
                   // Calcul Card
                   _buildMenuCard(
-                    title: 'Calcul',
-                    description: 'Résout les calculs de Michel',
-                    color: Colors.purple[200]!,
+                    context: context,
+                    title: AppStrings.get(context, 'calcul'),
+                    description: AppStrings.get(context, 'calcul_description'),
+                    color: Theme.of(context).colorScheme.primary,
                     onTap: () {
                       Navigator.push(
                         context,
@@ -169,9 +70,10 @@ class ArianeMenuScreen extends StatelessWidget {
 
                   // Scratch Card
                   _buildMenuCard(
-                    title: 'Scratch',
-                    description: 'Aide Michel à trouver son chemin',
-                    color: Colors.pink[200]!,
+                    context: context,
+                    title: AppStrings.get(context, 'scratch'),
+                    description: AppStrings.get(context, 'scratch_description'),
+                    color: Colors.teal,
                     onTap: () {
                       Navigator.push(
                         context,
@@ -197,6 +99,7 @@ class ArianeMenuScreen extends StatelessWidget {
   }
 
   Widget _buildMenuCard({
+    required BuildContext context,
     required String title,
     required String description,
     required Color color,
@@ -207,11 +110,11 @@ class ArianeMenuScreen extends StatelessWidget {
       child: Container(
         height: 120,
         decoration: BoxDecoration(
-          color: kCardColor,
+          color: Theme.of(context).cardColor,
           borderRadius: BorderRadius.circular(kPaddingExtraLarge),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withAlpha((255 * 0.1).round()),
+              color: kShadowColor,
               blurRadius: 10,
               offset: const Offset(0, 2),
             ),
@@ -219,14 +122,14 @@ class ArianeMenuScreen extends StatelessWidget {
         ),
         child: Row(
           children: [
-            // Left side with maze icon and gradient
+            // Left side with icon and gradient
             Container(
               width: 100,
               decoration: BoxDecoration(
                 gradient: LinearGradient(
-                  colors: [color.withAlpha((255 * 0.7).round()), color.withAlpha((255 * 0.3).round())],
-                  begin: Alignment.centerLeft,
-                  end: Alignment.centerRight,
+                  colors: [color.withOpacity(0.7), color],
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
                 ),
                 borderRadius: const BorderRadius.only(
                   topLeft: Radius.circular(kPaddingExtraLarge),
@@ -236,21 +139,15 @@ class ArianeMenuScreen extends StatelessWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  // Maze icon
-                  SizedBox(
-                    width: kMascotSize,
-                    height: kMascotSize,
-                    child: CustomPaint(
-                      painter: MiniMazePainter(),
-                    ),
-                  ),
+                  // Icon
+                  Icon(Icons.gamepad, color: Colors.white, size: kMascotSize),
                   const SizedBox(height: kPaddingSmall),
                   Text(
                     title,
                     style: const TextStyle(
                       fontSize: 14,
                       fontWeight: FontWeight.bold,
-                      color: kInactiveColor,
+                      color: Colors.white,
                     ),
                   ),
                 ],
@@ -265,22 +162,14 @@ class ArianeMenuScreen extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Container(
-                      padding: const EdgeInsets.symmetric(horizontal: kPaddingMedium, vertical: kPaddingSmall),
-                      decoration: BoxDecoration(
-                        color: kCardColor,
-                        borderRadius: BorderRadius.circular(15),
-                        border: Border.all(color: Colors.grey[300]!),
+                    Text(
+                      description,
+                      style: TextStyle(
+                        fontSize: kFontSizeExtraSmall,
+                        color: Theme.of(context).textTheme.bodyMedium!.color,
+                        height: 1.3,
                       ),
-                      child: Text(
-                        description,
-                        style: const TextStyle(
-                          fontSize: kFontSizeExtraSmall,
-                          color: kInactiveColor,
-                          height: 1.3,
-                        ),
-                        textAlign: TextAlign.center,
-                      ),
+                      textAlign: TextAlign.center,
                     ),
                   ],
                 ),
@@ -291,32 +180,4 @@ class ArianeMenuScreen extends StatelessWidget {
       ),
     );
   }
-}
-
-class MiniMazePainter extends CustomPainter {
-  @override
-  void paint(Canvas canvas, Size size) {
-    final paint = Paint()
-      ..color = kInactiveColor
-      ..strokeWidth = 1.5
-      ..style = PaintingStyle.stroke;
-
-    final double w = size.width;
-    final double h = size.height;
-
-    // Draw simplified maze pattern
-    // Outer rectangle
-    canvas.drawRect(Rect.fromLTWH(0, 0, w, h), paint);
-
-    // Inner rectangles
-    canvas.drawRect(Rect.fromLTWH(w * 0.2, h * 0.2, w * 0.6, h * 0.6), paint);
-    canvas.drawRect(Rect.fromLTWH(w * 0.4, h * 0.4, w * 0.2, h * 0.2), paint);
-
-    // Some maze paths
-    canvas.drawLine(Offset(0, h * 0.2), Offset(w * 0.6, h * 0.2), paint);
-    canvas.drawLine(Offset(w * 0.8, 0), Offset(w * 0.8, h * 0.6), paint);
-  }
-
-  @override
-  bool shouldRepaint(CustomPainter oldDelegate) => false;
 }

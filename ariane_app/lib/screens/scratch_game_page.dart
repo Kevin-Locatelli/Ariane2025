@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'dart:math';
+import 'package:ariane_app/constants.dart';
 import 'package:ariane_app/screens/ariane_result_screen.dart';
 import 'package:ariane_app/utils/score_manager.dart';
 
@@ -38,20 +39,19 @@ class ScratchPageState extends State<ScratchPage> with TickerProviderStateMixin 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFFF5F5F5),
       appBar: AppBar(
-        backgroundColor: Color(0xFFF5F5F5),
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         elevation: 0,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: Colors.black, size: 24),
+          icon: Icon(Icons.arrow_back, color: Theme.of(context).colorScheme.primary, size: kIconSize),
           onPressed: () => Navigator.of(context).pop(),
         ),
         centerTitle: true,
         title: Text(
           'Scratch',
           style: TextStyle(
-            color: Colors.black,
-            fontSize: 24,
+            color: Theme.of(context).colorScheme.primary,
+            fontSize: kFontSizeMedium,
             fontWeight: FontWeight.w500,
           ),
         ),
@@ -61,7 +61,7 @@ class ScratchPageState extends State<ScratchPage> with TickerProviderStateMixin 
           // Main game area
           Expanded(
             child: Container(
-              margin: EdgeInsets.all(16),
+              margin: EdgeInsets.all(kPaddingLarge),
               child: Row(
                 children: [
                   // Left side - Code blocks area
@@ -69,34 +69,35 @@ class ScratchPageState extends State<ScratchPage> with TickerProviderStateMixin 
                     flex: 1,
                     child: Container(
                       decoration: BoxDecoration(
-                        color: Color(0xFFE0E0E0),
-                        borderRadius: BorderRadius.circular(8),
+                        color: Theme.of(context).scaffoldBackgroundColor,
+                        borderRadius: BorderRadius.circular(kSmallBorderRadius),
                       ),
                       child: Column(
                         children: [
                           // Available blocks palette
                           Container(
-                            padding: EdgeInsets.all(8),
+                            padding: EdgeInsets.all(kPaddingSmall),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
                                   'Blocs disponibles:',
                                   style: TextStyle(
-                                    fontSize: 12,
+                                    fontSize: kFontSizeExtraSmall,
                                     fontWeight: FontWeight.bold,
+                                    color: Theme.of(context).textTheme.bodyMedium!.color,
                                   ),
                                 ),
-                                SizedBox(height: 8),
+                                SizedBox(height: kPaddingSmall),
                                 SingleChildScrollView(
                                   child: Wrap(
-                                    spacing: 4,
-                                    runSpacing: 4,
+                                    spacing: kSizedBoxHeightSmall,
+                                    runSpacing: kSizedBoxHeightSmall,
                                     children: [
-                                      _buildDraggableBlock('Avancer', Colors.blue[400]!),
-                                      _buildDraggableBlock('Tourner droite', Colors.green[400]!),
-                                      _buildDraggableBlock('Tourner gauche', Colors.orange[400]!),
-                                      _buildDraggableBlock('Dire bonjour', Colors.purple[400]!),
+                                      _buildDraggableBlock('Avancer', Theme.of(context).colorScheme.primary),
+                                      _buildDraggableBlock('Tourner droite', kSuccessColor),
+                                      _buildDraggableBlock('Tourner gauche', Theme.of(context).colorScheme.secondary),
+                                      _buildDraggableBlock('Dire bonjour', kErrorColor),
                                     ],
                                   ),
                                 ),
@@ -106,12 +107,12 @@ class ScratchPageState extends State<ScratchPage> with TickerProviderStateMixin 
                           // Code sequence area
                           Expanded(
                             child: Container(
-                              margin: EdgeInsets.all(8),
-                              padding: EdgeInsets.all(8),
+                              margin: EdgeInsets.all(kPaddingSmall),
+                              padding: EdgeInsets.all(kPaddingSmall),
                               decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.circular(4),
-                                border: Border.all(color: Colors.grey[300]!),
+                                color: Theme.of(context).cardColor,
+                                borderRadius: BorderRadius.circular(kTinyBorderRadius),
+                                border: Border.all(color: kBorderColor),
                               ),
                               child: DragTarget<String>(
                                 builder: (context, candidateData, rejectedData) {
@@ -121,19 +122,20 @@ class ScratchPageState extends State<ScratchPage> with TickerProviderStateMixin 
                                       Text(
                                         'Séquence de code:',
                                         style: TextStyle(
-                                          fontSize: 12,
+                                          fontSize: kFontSizeExtraSmall,
                                           fontWeight: FontWeight.bold,
+                                          color: Theme.of(context).textTheme.bodyMedium!.color,
                                         ),
                                       ),
-                                      SizedBox(height: 8),
+                                      SizedBox(height: kPaddingSmall),
                                       Expanded(
                                         child: _codeBlocks.isEmpty
                                             ? Center(
                                                 child: Text(
                                                   'Glissez les blocs ici',
                                                   style: TextStyle(
-                                                    color: Colors.grey[600],
-                                                    fontSize: 14,
+                                                    color: kTextColorSecondary,
+                                                    fontSize: kFontSizeSmall,
                                                   ),
                                                 ),
                                               )
@@ -141,14 +143,14 @@ class ScratchPageState extends State<ScratchPage> with TickerProviderStateMixin 
                                                 itemCount: _codeBlocks.length,
                                                 itemBuilder: (context, index) {
                                                   return Container(
-                                                    margin: EdgeInsets.only(bottom: 4),
+                                                    margin: EdgeInsets.only(bottom: kSizedBoxHeightSmall),
                                                     child: Row(
                                                       children: [
                                                         Expanded(
                                                           child: _buildCodeBlock(_codeBlocks[index]),
                                                         ),
                                                         IconButton(
-                                                          icon: Icon(Icons.close, size: 16),
+                                                          icon: Icon(Icons.close, size: kIconSize - 8),
                                                           onPressed: () {
                                                             setState(() {
                                                               _codeBlocks.removeAt(index);
@@ -177,7 +179,7 @@ class ScratchPageState extends State<ScratchPage> with TickerProviderStateMixin 
                     ),
                   ),
                   
-                  SizedBox(width: 16),
+                  SizedBox(width: kPaddingLarge),
                   
                   // Right side - Result area
                   Expanded(
@@ -185,17 +187,17 @@ class ScratchPageState extends State<ScratchPage> with TickerProviderStateMixin 
                     child: Container(
                       key: _gameAreaKey,
                       decoration: BoxDecoration(
-                        color: Color(0xFFE0E0E0),
-                        borderRadius: BorderRadius.circular(8),
+                        color: Theme.of(context).scaffoldBackgroundColor,
+                        borderRadius: BorderRadius.circular(kSmallBorderRadius),
                       ),
                       child: ClipRRect(
-                        borderRadius: BorderRadius.circular(8),
+                        borderRadius: BorderRadius.circular(kSmallBorderRadius),
                         child: Stack(
                           children: [
                             Container(
                               width: double.infinity,
                               height: double.infinity,
-                              color: Colors.white,
+                              color: Theme.of(context).cardColor,
                             ),
                             // Character
                             AnimatedPositioned(
@@ -208,20 +210,20 @@ class ScratchPageState extends State<ScratchPage> with TickerProviderStateMixin 
                                   width: 60,
                                   height: 60,
                                   decoration: BoxDecoration(
-                                    color: Colors.red[400],
+                                    color: Theme.of(context).colorScheme.primary,
                                     shape: BoxShape.circle,
                                     boxShadow: [
                                       BoxShadow(
-                                        color: Colors.black.withAlpha((0.2 * 255).round()),
-                                        blurRadius: 4,
-                                        offset: Offset(0, 2),
+                                        color: kShadowColor,
+                                        blurRadius: kBlurRadiusSmall,
+                                        offset: Offset(kOffsetX, kOffsetY),
                                       ),
                                     ],
                                   ),
                                   child: Icon(
                                     Icons.pets,
                                     color: Colors.white,
-                                    size: 30,
+                                    size: kIconSizeLarge - 18,
                                   ),
                                 ),
                               ),
@@ -232,15 +234,15 @@ class ScratchPageState extends State<ScratchPage> with TickerProviderStateMixin 
                                 left: _characterX + 70,
                                 top: _characterY - 20,
                                 child: Container(
-                                  padding: EdgeInsets.all(8),
+                                  padding: EdgeInsets.all(kPaddingSmall),
                                   decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    borderRadius: BorderRadius.circular(12),
-                                    border: Border.all(color: Colors.grey[300]!),
+                                    color: Theme.of(context).cardColor,
+                                    borderRadius: BorderRadius.circular(kBorderRadius),
+                                    border: Border.all(color: kBorderColor),
                                   ),
                                   child: Text(
                                     'Bonjour!',
-                                    style: TextStyle(fontSize: 12),
+                                    style: TextStyle(fontSize: kFontSizeExtraSmall, color: Theme.of(context).textTheme.bodyMedium!.color),
                                   ),
                                 ),
                               ),
@@ -256,7 +258,7 @@ class ScratchPageState extends State<ScratchPage> with TickerProviderStateMixin 
           
           // Control buttons
           Container(
-            padding: EdgeInsets.all(16),
+            padding: EdgeInsets.all(kPaddingLarge),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
@@ -272,23 +274,23 @@ class ScratchPageState extends State<ScratchPage> with TickerProviderStateMixin 
                     });
                   },
                   child: Container(
-                    padding: EdgeInsets.symmetric(horizontal: 32, vertical: 12),
+                    padding: EdgeInsets.symmetric(horizontal: kPaddingExtraLarge, vertical: kPaddingMedium),
                     decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(25),
+                      color: Theme.of(context).cardColor,
+                      borderRadius: BorderRadius.circular(kBorderRadiusLarge),
                       boxShadow: [
                         BoxShadow(
-                          color: Colors.black.withOpacity(0.1),
-                          blurRadius: 4,
-                          offset: Offset(0, 2),
+                          color: kShadowColor,
+                          blurRadius: kBlurRadiusSmall,
+                          offset: Offset(kOffsetX, kOffsetY),
                         ),
                       ],
                     ),
                     child: Text(
                       'Reset',
                       style: TextStyle(
-                        color: Colors.black87,
-                        fontSize: 16,
+                        color: Theme.of(context).textTheme.bodyMedium!.color,
+                        fontSize: kFontSizeSmall,
                         fontWeight: FontWeight.w500,
                       ),
                     ),
@@ -299,23 +301,23 @@ class ScratchPageState extends State<ScratchPage> with TickerProviderStateMixin 
                 GestureDetector(
                   onTap: _executeCode,
                   child: Container(
-                    padding: EdgeInsets.symmetric(horizontal: 32, vertical: 12),
+                    padding: EdgeInsets.symmetric(horizontal: kPaddingExtraLarge, vertical: kPaddingMedium),
                     decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(25),
+                      color: Theme.of(context).cardColor,
+                      borderRadius: BorderRadius.circular(kBorderRadiusLarge),
                       boxShadow: [
                         BoxShadow(
-                          color: Colors.black.withOpacity(0.1),
-                          blurRadius: 4,
-                          offset: Offset(0, 2),
+                          color: kShadowColor,
+                          blurRadius: kBlurRadiusSmall,
+                          offset: Offset(kOffsetX, kOffsetY),
                         ),
                       ],
                     ),
                     child: Text(
                       'Start',
                       style: TextStyle(
-                        color: Colors.black87,
-                        fontSize: 16,
+                        color: Theme.of(context).textTheme.bodyMedium!.color,
+                        fontSize: kFontSizeSmall,
                         fontWeight: FontWeight.w500,
                       ),
                     ),
@@ -335,32 +337,32 @@ class ScratchPageState extends State<ScratchPage> with TickerProviderStateMixin 
       feedback: Material(
         color: Colors.transparent,
         child: Container(
-          padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+          padding: EdgeInsets.symmetric(horizontal: kPaddingSmall, vertical: kSizedBoxHeightSmall),
           decoration: BoxDecoration(
             color: color,
-            borderRadius: BorderRadius.circular(4),
+            borderRadius: BorderRadius.circular(kTinyBorderRadius),
           ),
           child: Text(
             text,
             style: TextStyle(
               color: Colors.white,
-              fontSize: 10,
+              fontSize: kFontSizeExtraSmall,
               fontWeight: FontWeight.bold,
             ),
           ),
         ),
       ),
       child: Container(
-        padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+        padding: EdgeInsets.symmetric(horizontal: kPaddingSmall, vertical: kSizedBoxHeightSmall),
         decoration: BoxDecoration(
           color: color,
-          borderRadius: BorderRadius.circular(4),
+          borderRadius: BorderRadius.circular(kTinyBorderRadius),
         ),
         child: Text(
           text,
           style: TextStyle(
             color: Colors.white,
-            fontSize: 10,
+            fontSize: kFontSizeExtraSmall,
             fontWeight: FontWeight.bold,
           ),
         ),
@@ -370,16 +372,16 @@ class ScratchPageState extends State<ScratchPage> with TickerProviderStateMixin 
 
   Widget _buildCodeBlock(CodeBlock block) {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+      padding: EdgeInsets.symmetric(horizontal: kPaddingSmall, vertical: kSizedBoxHeightSmall),
       decoration: BoxDecoration(
         color: block.color,
-        borderRadius: BorderRadius.circular(4),
+        borderRadius: BorderRadius.circular(kTinyBorderRadius),
       ),
       child: Text(
         block.text,
         style: TextStyle(
           color: Colors.white,
-          fontSize: 12,
+          fontSize: kFontSizeExtraSmall,
           fontWeight: FontWeight.bold,
         ),
       ),
@@ -389,15 +391,15 @@ class ScratchPageState extends State<ScratchPage> with TickerProviderStateMixin 
   Color _getBlockColor(String text) {
     switch (text) {
       case 'Avancer':
-        return Colors.blue[400]!;
+        return Theme.of(context).colorScheme.primary;
       case 'Tourner droite':
-        return Colors.green[400]!;
+        return kSuccessColor;
       case 'Tourner gauche':
-        return Colors.orange[400]!;
+        return Theme.of(context).colorScheme.secondary;
       case 'Dire bonjour':
-        return Colors.purple[400]!;
+        return kErrorColor;
       default:
-        return Colors.grey[400]!;
+        return kTextColorSecondary;
     }
   }
 

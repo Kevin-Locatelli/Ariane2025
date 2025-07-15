@@ -272,19 +272,18 @@ class LabyrinthePageState extends State<LabyrinthePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: kBackgroundColor,
       appBar: AppBar(
-        backgroundColor: kBackgroundColor,
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         elevation: 0,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: Colors.black, size: kIconSize),
+          icon: Icon(Icons.arrow_back, color: Theme.of(context).colorScheme.primary, size: kIconSize),
           onPressed: () => Navigator.of(context).pop(),
         ),
         centerTitle: true,
         title: Text(
           'Labyrinthe',
           style: TextStyle(
-            color: Colors.black,
+            color: Theme.of(context).colorScheme.primary,
             fontSize: kFontSizeMedium,
             fontWeight: FontWeight.w500,
           ),
@@ -299,7 +298,7 @@ class LabyrinthePageState extends State<LabyrinthePage> {
               style: TextStyle(
                 fontSize: kFontSizeMedium,
                 fontWeight: FontWeight.bold,
-                color: Colors.black87,
+                color: Theme.of(context).textTheme.bodyMedium!.color,
               ),
             ),
             SizedBox(height: kPaddingLarge),
@@ -340,29 +339,29 @@ class LabyrinthePageState extends State<LabyrinthePage> {
                   final col = index % _gridWidth;
                   final cellType = _grid[row][col];
 
-                  Color cellColor = Colors.white; // Initialize with a default color
+                  Color cellColor = Theme.of(context).cardColor; // Initialize with a default color
                   IconData? cellIcon;
 
                   switch (cellType) {
                     case CellType.empty:
-                      cellColor = Colors.white;
+                      cellColor = Theme.of(context).cardColor;
                       break;
                     case CellType.wall:
-                      cellColor = Colors.black;
+                      cellColor = Theme.of(context).textTheme.bodyMedium!.color!;
                       break;
                     case CellType.start:
-                      cellColor = Colors.green;
+                      cellColor = kSuccessColor;
                       cellIcon = Icons.flag;
                       break;
                     case CellType.end:
-                      cellColor = kPrimaryColor;
+                      cellColor = kErrorColor;
                       cellIcon = Icons.check_circle;
                       break;
                     case CellType.visited:
-                      cellColor = Colors.blue.withAlpha((0.1 * 255).round()); // Light blue for visited
+                      cellColor = Theme.of(context).colorScheme.primary.withOpacity(0.1); // Light blue for visited
                       break;
                     case CellType.path:
-                      cellColor = const Color.fromARGB(255, 8, 173, 49); // Darker blue for path
+                      cellColor = kSuccessColor.withOpacity(0.8); // Darker blue for path
                       break;
                   }
 
@@ -374,7 +373,7 @@ class LabyrinthePageState extends State<LabyrinthePage> {
                       child: Container(
                         decoration: BoxDecoration(
                           color: cellColor,
-                          border: Border.all(color: Colors.grey[300]!, width: 0.5),
+                          border: Border.all(color: kBorderColor, width: 0.5),
                         ),
                         child: cellIcon != null
                             ? Icon(cellIcon, color: Colors.white, size: kIconSize - 4)
@@ -394,11 +393,11 @@ class LabyrinthePageState extends State<LabyrinthePage> {
     return Container(
       padding: EdgeInsets.all(kPaddingExtraLarge),
       decoration: BoxDecoration(
-        color: kCardColor,
+        color: Theme.of(context).cardColor,
         borderRadius: BorderRadius.circular(kBorderRadius),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withAlpha((0.08 * 255).round()),
+            color: kShadowColor,
             spreadRadius: kSpreadRadius,
             blurRadius: kBlurRadius,
             offset: Offset(kOffsetX, kOffsetY),
@@ -413,7 +412,7 @@ class LabyrinthePageState extends State<LabyrinthePage> {
           _buildControlButton(
             text: 'Mur',
             isSelected: _selectedMode == 'Mur',
-            color: Colors.blueGrey,
+            color: kTextColorSecondary,
             onPressed: _isSolving ? null : () {
               setState(() {
                 _selectedMode = 'Mur';
@@ -424,7 +423,7 @@ class LabyrinthePageState extends State<LabyrinthePage> {
             text: 'Point de départ',
             isSelected: _selectedMode == 'Point de départ',
             isPointSet: _startPoint != null,
-            color: Colors.green,
+            color: kSuccessColor,
             onPressed: _isSolving ? null : () {
               setState(() {
                 _selectedMode = 'Point de départ';
@@ -435,7 +434,7 @@ class LabyrinthePageState extends State<LabyrinthePage> {
             text: "Point d'arriver",
             isSelected: _selectedMode == "Point d'arriver",
             isPointSet: _endPoint != null,
-            color: kPrimaryColor,
+            color: kErrorColor,
             onPressed: _isSolving ? null : () {
               setState(() {
                 _selectedMode = "Point d'arriver";
@@ -445,7 +444,7 @@ class LabyrinthePageState extends State<LabyrinthePage> {
           _buildControlButton(
             text: 'Start',
             isSelected: false,
-            color: Colors.blue,
+            color: Theme.of(context).colorScheme.primary,
             onPressed: (_isStartPointSelected && _isEndPointSelected && !_isSolving)
                 ? _solveLabyrinth
                 : null,
@@ -453,7 +452,7 @@ class LabyrinthePageState extends State<LabyrinthePage> {
           _buildControlButton(
             text: 'Reset',
             isSelected: false,
-            color: Colors.grey,
+            color: kTextColorSecondary,
             onPressed: _isSolving ? null : () {
               setState(() {
                 _initializeGrid();
@@ -477,7 +476,7 @@ class LabyrinthePageState extends State<LabyrinthePage> {
       child: Container(
         padding: EdgeInsets.symmetric(horizontal: kPaddingLarge, vertical: kPaddingMedium),
         decoration: BoxDecoration(
-          color: isSelected || isPointSet ? color : kCardColor,
+          color: isSelected || isPointSet ? color : Theme.of(context).cardColor,
           borderRadius: BorderRadius.circular(kPaddingExtraLarge),
           border: Border.all(
             color: color,
@@ -486,7 +485,7 @@ class LabyrinthePageState extends State<LabyrinthePage> {
           boxShadow: isSelected || isPointSet
               ? [
                   BoxShadow(
-                    color: color.withAlpha((0.3 * 255).round()),
+                    color: color.withOpacity(0.3),
                     spreadRadius: kSpreadRadius,
                     blurRadius: kSizedBoxHeightSmall,
                     offset: Offset(kOffsetX, kOffsetY),
@@ -497,7 +496,7 @@ class LabyrinthePageState extends State<LabyrinthePage> {
         child: Text(
           text,
           style: TextStyle(
-            color: isSelected || isPointSet ? kCardColor : color,
+            color: isSelected || isPointSet ? Colors.white : color,
             fontSize: 14,
             fontWeight: FontWeight.w500,
           ),
