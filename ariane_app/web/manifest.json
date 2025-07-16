@@ -1,6 +1,6 @@
 {
-    "name": "ariane_app",
-    "short_name": "ariane_app",
+    "name": "Ariane",
+    "short_name": "Ariane",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",

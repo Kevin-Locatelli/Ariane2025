@@ -38,7 +38,9 @@ class CalculPageState extends State<CalculPage> {
     try {
       _interpreter = await Interpreter.fromAsset('assets/mnist.tflite');
     } catch (e) {
-      // Handle error: Failed to load model
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Failed to load the recognition model.')),
+      );
     }
   }
 
