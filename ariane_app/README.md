@@ -58,6 +58,7 @@ Pour plus de détails sur le projet, veuillez consulter les manuels suivants sit
 *   `DEPLOYMENT_GUIDE.md`: Instructions pour le déploiement sur les différentes plateformes.
 *   `UPDATE_GUIDE.md`: Procédures pour la mise à jour du projet et de ses dépendances.
 *   `ARCHITECTURE_AND_TRACEABILITY.md`: Analyse de l'architecture et de la traçabilité.
+*   `ACCESSIBILITY.md`: Guide des bonnes pratiques d'accessibilité (RGAA).
 
 ## Auteurs
 

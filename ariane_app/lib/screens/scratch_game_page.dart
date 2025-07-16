@@ -1,3 +1,4 @@
+import 'package:ariane_app/utils/app_strings.dart';
 import 'package:flutter/material.dart';
 import 'dart:math';
 import 'package:ariane_app/constants.dart';
@@ -151,6 +152,7 @@ class ScratchPageState extends State<ScratchPage> with TickerProviderStateMixin 
                                                         ),
                                                         IconButton(
                                                           icon: Icon(Icons.close, size: kIconSize - 8),
+                                                          tooltip: 'Supprimer le bloc',
                                                           onPressed: () {
                                                             setState(() {
                                                               _codeBlocks.removeAt(index);

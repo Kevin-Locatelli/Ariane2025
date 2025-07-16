@@ -1,3 +1,4 @@
+import 'package:ariane_app/utils/app_strings.dart';
 import 'package:flutter/material.dart';
 import 'package:ariane_app/constants.dart';
 import 'dart:collection'; // For Queue
@@ -281,6 +282,7 @@ class LabyrinthePageState extends State<LabyrinthePage> {
         leading: IconButton(
           icon: Icon(Icons.arrow_back, color: Theme.of(context).colorScheme.primary, size: kIconSize),
           onPressed: () => Navigator.of(context).pop(),
+          tooltip: AppStrings.get(context, 'back_button_tooltip'),
         ),
         centerTitle: true,
         title: Text(
@@ -477,7 +479,7 @@ class LabyrinthePageState extends State<LabyrinthePage> {
     return GestureDetector(
       onTap: onPressed,
       child: Container(
-        padding: EdgeInsets.symmetric(horizontal: kPaddingLarge, vertical: kPaddingMedium),
+        padding: EdgeInsets.symmetric(horizontal: kPaddingLarge, vertical: kPaddingLarge),
         decoration: BoxDecoration(
           color: isSelected || isPointSet ? color : Theme.of(context).cardColor,
           borderRadius: BorderRadius.circular(kPaddingExtraLarge),

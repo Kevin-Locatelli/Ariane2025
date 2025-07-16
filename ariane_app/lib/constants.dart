@@ -8,7 +8,7 @@ const Color kAccentColor = Color(0xFFFFC107); // Amber/Gold
 const Color kTextColorPrimary = Color(0xFF212121); // Almost Black
 const Color kTextColorSecondary = Color(0xFF757575); // Grey
 const Color kBorderColor = Color(0xFFBDBDBD); // Lighter Grey
-const Color kSuccessColor = Color(0xFF4CAF50); // Green
+const Color kSuccessColor = Color(0xFF1B5E20); // Dark Green for high contrast
 const Color kErrorColor = Color(0xFFD32F2F); // Red
 
 // Existing colors that might need remapping or removal

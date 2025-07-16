@@ -26,6 +26,7 @@ class AppStrings {
       'effacer_les_resultats': 'Effacer les résultats',
       'retour_au_menu': 'Retour au menu',
       'resultat_du_jeu': 'Résultat du jeu',
+      'back_button_tooltip': 'Retour en arrière',
     },
     'en': {
       'title': 'Ariane',
@@ -49,6 +50,7 @@ class AppStrings {
       'effacer_les_resultats': 'Clear results',
       'retour_au_menu': 'Back to menu',
       'resultat_du_jeu': 'Game Result',
+      'back_button_tooltip': 'Go back',
     },
   };
 

@@ -1,3 +1,4 @@
+import 'package:ariane_app/utils/app_strings.dart';
 import 'package:flutter/material.dart';
 import 'package:ariane_app/constants.dart';
 import 'dart:math';
@@ -60,6 +61,7 @@ class CalculPageState extends State<CalculPage> {
         elevation: 0,
         leading: IconButton(
           icon: Icon(Icons.arrow_back, color: Theme.of(context).colorScheme.primary, size: kIconSize),
+          tooltip: AppStrings.get(context, 'back_button_tooltip'),
           onPressed: () async {
             // Save current score before leaving
             await ScoreManager.saveScore(
@@ -212,7 +214,7 @@ class CalculPageState extends State<CalculPage> {
                     });
                   },
                   child: Container(
-                    padding: EdgeInsets.symmetric(horizontal: kPaddingExtraLarge, vertical: kPaddingMedium),
+                    padding: EdgeInsets.symmetric(horizontal: kPaddingExtraLarge, vertical: kPaddingLarge),
                     decoration: BoxDecoration(
                       color: Theme.of(context).cardColor,
                       borderRadius: BorderRadius.circular(kBorderRadiusLarge),
@@ -243,7 +245,7 @@ class CalculPageState extends State<CalculPage> {
                     _showValidationDialog();
                   },
                   child: Container(
-                    padding: EdgeInsets.symmetric(horizontal: kPaddingExtraLarge, vertical: kPaddingMedium),
+                    padding: EdgeInsets.symmetric(horizontal: kPaddingExtraLarge, vertical: kPaddingLarge),
                     decoration: BoxDecoration(
                       color: Theme.of(context).cardColor,
                       borderRadius: BorderRadius.circular(kBorderRadiusLarge),

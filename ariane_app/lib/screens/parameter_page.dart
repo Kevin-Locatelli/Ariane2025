@@ -27,6 +27,7 @@ class ParametrePageState extends State<ParametrePage> {
         leading: IconButton(
           icon: Icon(Icons.arrow_back, color: Theme.of(context).colorScheme.primary, size: kIconSize),
           onPressed: () => Navigator.of(context).pop(),
+          tooltip: AppStrings.get(context, 'back_button_tooltip'),
         ),
         centerTitle: true,
         title: Text(
