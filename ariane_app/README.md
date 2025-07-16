@@ -1,98 +1,64 @@
 # Application Ariane
 
-## Aperçu du projet
+## Description de l'application
 
-L'application Ariane est une application Flutter interactive conçue pour offrir des expériences engageantes et éducatives à travers divers mini-jeux. Elle propose un jeu de labyrinthe, un jeu de calcul et un jeu de programmation par blocs de type Scratch. L'application intègre également la gestion des scores et utilise TensorFlow Lite pour des fonctionnalités potentielles d'apprentissage automatique.
+L'application Ariane est une application mobile multi-plateforme développée avec Flutter. Elle est conçue pour offrir des expériences interactives et éducatives à travers une série de mini-jeux, notamment :
 
-## Fonctionnalités
+*   **Jeu de Labyrinthe :** Permet aux utilisateurs de créer un labyrinthe et de regarder un algorithme le résoudre.
+*   **Jeu de Calcul :** Un jeu où l'utilisateur doit dessiner la réponse à une opération mathématique, qui est ensuite reconnue par un modèle d'intelligence artificielle.
+*   **Jeu de Scratch :** Une introduction à la programmation par blocs visuels pour guider un personnage.
 
-*   **Jeu de labyrinthe :** Créez et résolvez des labyrinthes.
-*   **Jeu de calcul :** Entraînez-vous aux calculs mathématiques.
-*   **Jeu Scratch :** Apprenez les concepts de base de la programmation grâce à une interface visuelle basée sur des blocs.
-*   **Gestion des scores :** Suivez et consultez vos performances dans les différents jeux.
-*   **Intégration de l'apprentissage automatique :** (Potentiel) Utilise TensorFlow Lite pour les capacités d'apprentissage automatique sur l'appareil, telles que la reconnaissance de chiffres dans le jeu de calcul.
+L'application intègre également un système de gestion des scores pour suivre la progression et des paramètres personnalisables comme le changement de langue.
 
-## Comment lancer l'application
+## Technologies Utilisées
 
-Pour exécuter l'application Ariane, suivez ces étapes :
+*   **Framework :** [Flutter](https://flutter.dev/)
+*   **Langage :** [Dart](https://dart.dev/)
+*   **Gestion d'état :** [Provider](https://pub.dev/packages/provider)
+*   **Intelligence Artificielle :** [TensorFlow Lite](https://www.tensorflow.org/lite) via le paquet `tflite_flutter` pour la reconnaissance de chiffres manuscrits.
+*   **Stockage local :** [shared_preferences](https://pub.dev/packages/shared_preferences) pour sauvegarder les scores et les préférences.
+*   **Tests :** `flutter_test` et `mocktail`.
+
+## Instructions pour Compiler et Lancer
 
 ### Prérequis
 
-*   **Flutter SDK :** Assurez-vous que Flutter est installé. Vous pouvez le télécharger depuis le [site officiel de Flutter](https://flutter.dev/docs/get-started/install).
+*   **Flutter SDK :** Assurez-vous que Flutter est installé. Suivez les instructions sur le [site officiel de Flutter](https://flutter.dev/docs/get-started/install).
 *   **IDE :** Visual Studio Code avec l'extension Flutter, ou Android Studio avec les plugins Flutter et Dart.
-*   **Appareil/Émulateur connecté :** Un appareil Android (physique ou émulateur), un appareil iOS (physique ou simulateur), ou un environnement de bureau (Windows, macOS, Linux) configuré pour le développement Flutter.
+*   **Appareil/Émulateur :** Un appareil ou émulateur Android/iOS, ou un environnement de bureau (Windows, macOS, Linux) configuré.
 
-### Configuration
+### Étapes
 
 1.  **Cloner le dépôt :**
     ```bash
-    git clone <URL_du_dépôt>
-    cd ariane_app
+    git clone git@github.com:Kevin-Locatelli/Ariane2025.git
+    cd Ariane2025/ariane_app
     ```
-2.  **Obtenir les dépendances :**
-    Accédez au répertoire `ariane_app` et exécutez :
+
+2.  **Installer les dépendances :**
+    Exécutez la commande suivante à la racine du dossier `ariane_app` :
     ```bash
     flutter pub get
     ```
 
-### Exécuter l'application
-
-#### Sur un appareil connecté (Android/iOS)
-
-1.  Assurez-vous que votre appareil est connecté et reconnu par Flutter :
-    ```bash
-    flutter devices
-    ```
-2.  Exécutez l'application sur votre appareil :
+3.  **Lancer l'application :**
+    Assurez-vous qu'un appareil est connecté et reconnu par Flutter (`flutter devices`), puis lancez l'application :
     ```bash
     flutter run
     ```
-    Si plusieurs appareils sont connectés, vous devrez peut-être en spécifier un en utilisant son ID :
-    ```bash
-    flutter run -d <ID_de_l'appareil>
-    ```
+    Pour une plateforme spécifique :
+    *   **Web :** `flutter run -d chrome`
+    *   **Windows :** `flutter run -d windows`
 
-#### Sur le bureau Windows
+## Documentation
 
-1.  Activez le développement de bureau Windows pour Flutter :
-    ```bash
-    flutter config --enable-windows-desktop
-    ```
-2.  Exécutez l'application :
-    ```bash
-    flutter run -d windows
-    ```
+Pour plus de détails sur le projet, veuillez consulter les manuels suivants situés à la racine du projet (`Ariane2025/`):
 
-#### Sur le Web (Chrome/Edge)
+*   `USER_MANUAL.md`: Guide d'utilisation de l'application.
+*   `DEPLOYMENT_GUIDE.md`: Instructions pour le déploiement sur les différentes plateformes.
+*   `UPDATE_GUIDE.md`: Procédures pour la mise à jour du projet et de ses dépendances.
+*   `ARCHITECTURE_AND_TRACEABILITY.md`: Analyse de l'architecture et de la traçabilité.
 
-1.  Activez le développement Web pour Flutter :
-    ```bash
-    flutter config --enable-web
-    ```
-2.  Exécutez l'application sur votre navigateur Web préféré :
-    ```bash
-    flutter run -d chrome
-    # ou
-    flutter run -d edge
-    ```
+## Auteurs
 
-## Ce que vous pouvez faire avec l'application
-
-Une fois l'application lancée, vous pouvez :
-
-*   **Jouer à des jeux :** Explorez les jeux Labyrinthe, Calcul et Scratch depuis le menu principal.
-*   **Suivre les scores :** Consultez vos résultats et scores de jeu précédents sur l'écran des résultats dédié.
-*   **Personnaliser les paramètres :** Ajustez le volume audio et changez la langue de l'application dans la page des paramètres.
-*   **Apprendre et s'amuser :** Interagissez avec les éléments interactifs et profitez des aspects éducatifs des jeux.
-
-## Le manuel de déploiement
-
-[À compléter avec les instructions de déploiement spécifiques, par exemple, comment générer un APK/IPA, comment publier sur les stores, etc.]
-
-## Le manuel d’utilisation
-
-[À compléter avec des instructions détaillées sur l'utilisation de l'application, les fonctionnalités de chaque jeu, etc.]
-
-## Le manuel de mise à jour
-
-[À compléter avec les procédures de mise à jour de l'application, par exemple, comment gérer les migrations de données, les nouvelles versions, etc.]
+*   Kevin Locatelli
